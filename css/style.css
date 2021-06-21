@@ -1,10 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
 *{
     box-sizing: border-box;
     margin: 0;
+}
+body{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    background-image: url(../background.jpeg);
+    background-size: cover;
 }
 .grilla{
     width: 504px;
     height: 504px;
     position: relative;
-    background-color: pink;
+}
+.contenedorGrilla{
+    background-color: black;
+    opacity: 0.8;
+    border: 3px solid white;
+    border-radius: 10px;
+    padding: 10px;
+}
+.estiloLetras{
+    font-family: 'Pacifico', cursive;
+    text-shadow: 1px 1px #fafafa, 1px -1px #fafafa, -1px -1px #fafafa, -1px 1px #fafafa;
+    color: #d81b60;
+    font-weight: 800;
 }
