@@ -1,0 +1,10 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+}
+.grilla{
+    width: 504px;
+    height: 504px;
+    position: relative;
+    background-color: pink;
+}
