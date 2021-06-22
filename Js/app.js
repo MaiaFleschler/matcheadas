@@ -1,12 +1,67 @@
 'use strict';
-const container = document.getElementById("container");
+//COntenedor Principal
+const contenedor = document.createElement("div");
+contenedor.setAttribute("class", "contenedor");
+document.body.appendChild(contenedor);
 const titulo = document.createElement("h1");
 const textoTitulo = document.createTextNode("MatcheADAs");
 titulo.appendChild(textoTitulo);
 titulo.setAttribute("class", "estiloLetras");
 titulo.style.fontSize = "45px";
-container.appendChild(titulo);
 
+contenedor.appendChild(titulo);
+
+//Contenedor Control
+const contenedorControl = document.createElement("div");
+contenedor.appendChild(contenedorControl);
+contenedorControl.setAttribute("class","contenedorControl");
+//Puntaje
+const contenedorPuntaje = document.createElement("div");
+contenedorPuntaje.setAttribute("class", "contenedorPuntaje");
+contenedorControl.appendChild(contenedorPuntaje);
+const parrafoCombo = document.createElement ("p");
+
+const parrafoPuntos = document.createElement ("p");
+
+const textoCombo = document.createTextNode ("Combo x");
+parrafoCombo.appendChild(textoCombo);
+contenedorPuntaje.appendChild(parrafoCombo);
+const spanCombo = document.createElement("span");
+const txtSpanCombo = document.createTextNode(" 1");
+spanCombo.setAttribute("id","combo");
+spanCombo.appendChild(txtSpanCombo);
+parrafoCombo.appendChild(spanCombo);
+
+const textoPuntos = document.createTextNode ("Puntos: ");
+parrafoPuntos.appendChild(textoPuntos);
+contenedorPuntaje.appendChild(parrafoPuntos);
+const spanPuntos = document.createElement("span");
+const txtSpanPuntos = document.createTextNode(" 0");
+spanPuntos.setAttribute("id","puntos");
+spanPuntos.appendChild(txtSpanPuntos);
+parrafoPuntos.appendChild(spanPuntos);
+
+//Div botones info y refresh
+
+const contenedorBotones= document.createElement("div");
+contenedorControl.appendChild(contenedorBotones);
+
+const botonInformacion = document.createElement("button");
+const botonReiniciar = document.createElement("button");
+
+contenedorBotones.appendChild(botonInformacion);
+contenedorBotones.appendChild(botonReiniciar);
+
+const iconoBotonInformacion = document.createElement("i");
+botonInformacion.appendChild(iconoBotonInformacion);
+botonInformacion.setAttribute("class","botonControl");
+iconoBotonInformacion.setAttribute("class","fas fa-info-circle");
+
+
+const iconoBotonReiniciar = document.createElement("i");
+botonReiniciar.appendChild(iconoBotonReiniciar);
+botonReiniciar.setAttribute("class","botonControl");
+iconoBotonReiniciar.setAttribute("class","fas fa-redo");
 
 const botonFacil = document.createElement("button");
 const botonNormal = document.createElement("button");
