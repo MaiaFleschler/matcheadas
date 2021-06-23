@@ -14,6 +14,7 @@ body{
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	padding-top: 30px;
 }
 .contenedorControl{
 	display: flex; 
@@ -26,6 +27,7 @@ body{
 	border: 3px solid white;
     	border-radius: 10px;
     	padding: 10px;
+	margin-top: 30px;   
 	margin-bottom: 10px;
 }
 .botonControl{
@@ -39,6 +41,21 @@ body{
 	justify-content: space-between;
 	width: 50%;
 	padding: 5px;
+}
+.contenedorTiempo {
+	display: flex; 	
+	flex-direction: row;
+	justify-content: space-around;
+	align-items: center;
+	background-color: #d81b60;
+	color: #fafafa;
+	text-shadow: 1px 1px #424242, 1px -1px #424242, -1px -1px #424242, -1px 1px #424242;
+	font-family: 'Pacifico', cursive;
+	width: 100px; 
+	border: 3px solid white;
+    	border-radius: 10px;
+    	padding: 10px;
+	margin-top: 10px;	
 }
 .grilla{
     width: 504px;
