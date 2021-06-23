@@ -75,7 +75,20 @@ contenedorGrilla.setAttribute("class", "contenedorGrilla");
 const grilla = document.createElement("div");
 grilla.setAttribute("class", "grilla");
 contenedorGrilla.appendChild(grilla);
-document.body.appendChild(contenedorGrilla);
+contenedor.appendChild(contenedorGrilla);
+
+//Reloj
+
+const contenedorReloj = document.createElement("div");
+contenedorReloj.setAttribute("class","contenedorTiempo");
+contenedor.appendChild(contenedorReloj);
+const iconoReloj = document.createElement("i");
+contenedorReloj.appendChild(iconoReloj);
+iconoReloj.setAttribute("class","fas fa-hourglass-half");
+const parrafoReloj = document.createElement ("p");
+contenedorReloj.appendChild(parrafoReloj);
+const textoReloj = document.createTextNode ("  0:00");
+parrafoReloj.appendChild(textoReloj);
 
 
 botonFacil.appendChild(botonFacilTexto);
