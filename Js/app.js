@@ -119,13 +119,13 @@ const crearMatriz = (cantidad,tamanio) =>{
 let celda;
 const crearCeldas = (i, j, emoji, cellSize) =>{
     celda = document.createElement('div');
-    celda.dataset.row = j;
-    celda.dataset.column = i;
+    celda.dataset.row = i;
+    celda.dataset.column = j;
     celda.style.width = `${cellSize}px`;
     celda.style.height = `${cellSize}px`;
     celda.style.position = 'absolute';
-    celda.style.left = `${i*cellSize}px`;
-    celda.style.top = `${j*cellSize}px`;
+    celda.style.left = `${j*cellSize}px`;
+    celda.style.top = `${i*cellSize}px`;
     celda.style.fontSize = `${cellSize-20}px`;
     celda.innerHTML = emoji;
     celda.id=`${j}-${i}`
@@ -159,6 +159,14 @@ const moverCelda = (clickAnterior, clickPosterior, dataRowAnterior, dataColumnAn
     clickAnterior.dataset.column = dataColumnPosterior;
     clickPosterior.dataset.row = dataRowAnterior;
     clickPosterior.dataset.column = dataColumnAnterior;
+
+  //  console.log(`${clickAnterior} prueba de ahora`)
+    
+    arrayMatriz[dataRowPosterior][dataColumnPosterior] = clickAnterior.innerHTML;
+    console.log(arrayMatriz[dataRowPosterior][dataColumnPosterior])
+    
+    arrayMatriz[dataRowAnterior][dataColumnAnterior] = clickPosterior.innerHTML;
+    console.log(arrayMatriz[dataRowAnterior][dataColumnAnterior])
 }
 //Seleccion item
 let clickAnterior = null;
