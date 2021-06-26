@@ -16,7 +16,7 @@ document.body.appendChild(botonNormal);
 document.body.appendChild(botonDificil);
 
 const crearCeldas = (cantidad,tamanio) =>{
-    
+    const emojis = ["🐸", "🐷", "🐰", "🐔", "🐵", "🐱"]
     let filas = cantidad;
     let col = cantidad;
     let cellSize = tamanio;
@@ -26,12 +26,16 @@ const crearCeldas = (cantidad,tamanio) =>{
         arrayMatriz.push([]);
         for(let j = 0; j < col; j++) {
             const celda = document.createElement('div');
+            celda.style.fontSize = `${cellSize-20}px`;
             celda.style.width = `${cellSize}px`;
             celda.style.height = `${cellSize}px`;
             celda.style.position = 'absolute';
             celda.style.left = `${i*cellSize}px`;
             celda.style.top = `${j*cellSize}px`;
             celda.style.border = '1px solid #000';
+            const emoji = emojis[Math.floor(Math.random()*emojis.length)];
+            arrayMatriz[i].push(emoji);
+            celda.innerText = emoji;
             grilla.appendChild(celda);
         }
     }
