@@ -134,45 +134,45 @@ const crearCeldas = (i, j, emoji, cellSize) =>{
 }
 
 //Bloque horizontal
-  const tieneBloqueHorizontal = (matriz) => {
-        for(let i = 0; i < matriz.length; i++) {
-        
-            const array = matriz[i];
-            for(let j = 0; j < array.length; j++) {
-        
+const tieneBloqueHorizontal = (matriz) => {
+    for(let i = 0; i < matriz.length; i++) {
+        const array = matriz[i];
+        for(let j = 0; j < array.length; j++) {
             if(array[j] === array[j + 1] && array[j] === array[j + 2]) {
-        
-                for(let x = j; x < array.length - j; x++) {
-                if(array[x] === array[x + 1]) {
-        
-                }
-                }
-                return true;
-        
-            
-            }
-        
+                let arraycito = [];
+                arraycito.push(array[j]);
+                arraycito.push(array[j+1]);
+                arraycito.push(array[j+2]);
+                
+                let y=j;
+                let m=0;
+                for(let x=3; m<1; x++){
+                    if(array[y+2] === array[j+x]){
+                        arraycito.push(array[j+x]);
+                        y++;
+                    }else{
+                        m++;;
+                    }
+                 } console.log(arraycito);
             }
         }
-    
     }
-
-  
-    
-
+}
 // Dificultad
 botonFacil.addEventListener("click", ()=>{
 	cellSize = 56;
     crearMatriz(9,cellSize);
-    tieneBloqueHorizontal(arrayMatriz)
+    tieneBloqueHorizontal(arrayMatriz);
 });
 botonNormal.addEventListener("click", ()=>{
     cellSize = 63,
 	crearMatriz(8,cellSize);
+    tieneBloqueHorizontal(arrayMatriz);
 });
 botonDificil.addEventListener("click", ()=>{
     cellSize = 72;
 	crearMatriz(7,cellSize);
+    tieneBloqueHorizontal(arrayMatriz);
 });
 
 //Intercambiar Posiciones
@@ -214,7 +214,7 @@ const clickearCeldas = (e) =>{
                 clickAnterior = clickPosterior;
             }else{
                 moverCelda(clickAnterior, clickPosterior, dataRowAnterior, dataColumnAnterior, dataRowPosterior, dataColumnPosterior)
-            
+                tieneBloqueHorizontal(arrayMatriz);
                 clickAnterior.classList.remove("seleccion-celda")
                 clickAnterior = null;
             }
