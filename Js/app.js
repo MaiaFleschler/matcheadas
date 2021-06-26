@@ -149,9 +149,9 @@ botonDificil.addEventListener("click", ()=>{
 });
 
 //Seleccion item
+let clickAnterior = null;
 const clickearCeldas = (e) =>{
     const clickPosterior = e.target;
-    console.log(clickAnterior)
 
     if(clickAnterior){
         console.log("esto funciona");
@@ -165,11 +165,23 @@ const clickearCeldas = (e) =>{
         console.log(`${distanciaRow} distanciarow`)
 
         if((distanciaRow >= -1 && distanciaRow <= 1) && (distanciaColumn >= -1 && distanciaColumn <= 1)){ //horizontales y verticales adyacentes
-            console.log("caquitaquepasó")
             if((distanciaRow === 1 || distanciaRow === -1) && (distanciaColumn === 1 || distanciaColumn === -1)){ //omite diagonales adyacentes 
                 clickPosterior.classList.add("seleccion-celda");
                 clickAnterior.classList.remove("seleccion-celda");
                 clickAnterior = clickPosterior;
+            }else{
+                clickAnterior.style.top = `${dataRowPosterior * cellSize}px`
+                clickAnterior.style.left = `${dataColumnPosterior * cellSize}px`
+                clickPosterior.style.top = `${dataRowAnterior * cellSize}px`
+                clickPosterior.style.left = `${dataColumnAnterior * cellSize}px`
+
+                clickAnterior.dataset.row = dataRowPosterior;
+                clickAnterior.dataset.column = dataColumnPosterior;
+                clickPosterior.dataset.row = dataRowAnterior;
+                clickPosterior.dataset.column = dataColumnAnterior;
+
+                clickAnterior.classList.remove("seleccion-celda")
+                clickAnterior = null;
             }
         }else{ //items no adyacentes    
             clickPosterior.classList.add("seleccion-celda");
