@@ -101,7 +101,7 @@ document.body.appendChild(botonDificil);
 //Generar grilla
 let cellSize;
 const arrayMatriz = [];
-const emojis = ["🐸", "🐷", "🐰", "🐔", "🐵", "🐱"]
+const emojis = ["🐸", "🐷", "🦝", "🐔", "🐵", "🐱"]
 
 const crearMatriz = (cantidad,tamanio) =>{
     let matrizSize = cantidad;
@@ -129,7 +129,7 @@ const crearCeldas = (i, j, emoji, cellSize) =>{
     celda.style.fontSize = `${cellSize-20}px`;
     celda.innerHTML = emoji;
     celda.id=`${j}-${i}`
-
+    celda.addEventListener('click', clickearCeldas);
     return celda;
 }
  
@@ -147,3 +147,11 @@ botonDificil.addEventListener("click", ()=>{
     cellSize = 72;
 	crearMatriz(7,cellSize);
 });
+
+//Seleccion item
+const clickearCeldas = (e) =>{
+    const celdaClickeada = e.target;
+
+    celdaClickeada.classList.add("seleccion-celda");
+
+}
