@@ -147,3 +147,11 @@ botonDificil.addEventListener("click", ()=>{
     cellSize = 72;
 	crearMatriz(7,cellSize);
 });
+
+//Seleccion item
+const clickearCeldas = (e) =>{
+    const celdaClickeada = e.target;
+
+    celdaClickeada.classList.add("seleccion-celda");
+
+}
