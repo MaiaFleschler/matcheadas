@@ -132,12 +132,39 @@ const crearCeldas = (i, j, emoji, cellSize) =>{
     celda.addEventListener('click', clickearCeldas);
     return celda;
 }
- 
+
+//Bloque horizontal
+  const tieneBloqueHorizontal = (matriz) => {
+        for(let i = 0; i < matriz.length; i++) {
+        
+            const array = matriz[i];
+            for(let j = 0; j < array.length; j++) {
+        
+            if(array[j] === array[j + 1] && array[j] === array[j + 2]) {
+        
+                for(let x = j; x < array.length - j; x++) {
+                if(array[x] === array[x + 1]) {
+        
+                }
+                }
+                return true;
+        
+            
+            }
+        
+            }
+        }
+    
+    }
+
+  
+    
 
 // Dificultad
 botonFacil.addEventListener("click", ()=>{
 	cellSize = 56;
     crearMatriz(9,cellSize);
+    tieneBloqueHorizontal(arrayMatriz)
 });
 botonNormal.addEventListener("click", ()=>{
     cellSize = 63,
@@ -159,15 +186,15 @@ const moverCelda = (clickAnterior, clickPosterior, dataRowAnterior, dataColumnAn
     clickAnterior.dataset.column = dataColumnPosterior;
     clickPosterior.dataset.row = dataRowAnterior;
     clickPosterior.dataset.column = dataColumnAnterior;
-
-  //  console.log(`${clickAnterior} prueba de ahora`)
-    
+    //intercambia emojis de la matriz:
     arrayMatriz[dataRowPosterior][dataColumnPosterior] = clickAnterior.innerHTML;
     console.log(arrayMatriz[dataRowPosterior][dataColumnPosterior])
-    
-    arrayMatriz[dataRowAnterior][dataColumnAnterior] = clickPosterior.innerHTML;
+    arrayMatriz[dataRowAnterior][dataColumnAnterior] = clickPosterior.innerHTML;    
     console.log(arrayMatriz[dataRowAnterior][dataColumnAnterior])
 }
+
+
+
 //Seleccion item
 let clickAnterior = null;
 const clickearCeldas = (e) =>{
@@ -187,6 +214,7 @@ const clickearCeldas = (e) =>{
                 clickAnterior = clickPosterior;
             }else{
                 moverCelda(clickAnterior, clickPosterior, dataRowAnterior, dataColumnAnterior, dataRowPosterior, dataColumnPosterior)
+            
                 clickAnterior.classList.remove("seleccion-celda")
                 clickAnterior = null;
             }
@@ -200,3 +228,4 @@ const clickearCeldas = (e) =>{
         clickAnterior.classList.add("seleccion-celda");
     }
 }
+
