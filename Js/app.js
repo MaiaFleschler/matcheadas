@@ -98,37 +98,52 @@ document.body.appendChild(botonFacil);
 document.body.appendChild(botonNormal);
 document.body.appendChild(botonDificil);
 
-const crearCeldas = (cantidad,tamanio) =>{
-    const emojis = ["🐸", "🐷", "🐰", "🐔", "🐵", "🐱"]
-    let filas = cantidad;
-    let col = cantidad;
-    let cellSize = tamanio;
-    const arrayMatriz = [];
+//Generar grilla
+let cellSize;
+const arrayMatriz = [];
+const emojis = ["🐸", "🐷", "🐰", "🐔", "🐵", "🐱"]
 
-    for(let i = 0; i < filas; i++) {
+const crearMatriz = (cantidad,tamanio) =>{
+    let matrizSize = cantidad;
+    let cellSize = tamanio
+    for(let i = 0; i < matrizSize; i++) {
         arrayMatriz.push([]);
-        for(let j = 0; j < col; j++) {
-            const celda = document.createElement('div');
-            celda.style.width = `${cellSize}px`;
-            celda.style.height = `${cellSize}px`;
-            celda.style.position = 'absolute';
-            celda.style.left = `${i*cellSize}px`;
-            celda.style.top = `${j*cellSize}px`;
-            celda.style.fontSize = `${cellSize-20}px`;
-            const emoji = emojis[Math.floor(Math.random()*emojis.length)];
-            arrayMatriz[i].push(emoji);
-            celda.innerText = emoji;
-            grilla.appendChild(celda);
+        for(let j = 0; j < matrizSize; j++) {
+            const emoji = emojis[Math.floor(Math.random()*(emojis.length-1))];
+            arrayMatriz[i][j]= emoji;
+            grilla.append(crearCeldas(i, j, emoji, cellSize));
         }
+        console.log(arrayMatriz)
     }
 }
+let celda;
+const crearCeldas = (i, j, emoji, cellSize) =>{
+    celda = document.createElement('div');
+    celda.dataset.row = j;
+    celda.dataset.column = i;
+    celda.style.width = `${cellSize}px`;
+    celda.style.height = `${cellSize}px`;
+    celda.style.position = 'absolute';
+    celda.style.left = `${i*cellSize}px`;
+    celda.style.top = `${j*cellSize}px`;
+    celda.style.fontSize = `${cellSize-20}px`;
+    celda.innerHTML = emoji;
+    celda.id=`${j}-${i}`
 
+    return celda;
+}
+ 
+
+// Dificultad
 botonFacil.addEventListener("click", ()=>{
-	crearCeldas(9,56);
+	cellSize = 56;
+    crearMatriz(9,cellSize);
 });
 botonNormal.addEventListener("click", ()=>{
-	crearCeldas(8,63);
+    cellSize = 63,
+	crearMatriz(8,cellSize);
 });
 botonDificil.addEventListener("click", ()=>{
-	crearCeldas(7,72);
+    cellSize = 72;
+	crearMatriz(7,cellSize);
 });
