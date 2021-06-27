@@ -119,33 +119,60 @@ const crearMatriz = (cantidad,tamanio) =>{
 let celda;
 const crearCeldas = (i, j, emoji, cellSize) =>{
     celda = document.createElement('div');
-    celda.dataset.row = j;
-    celda.dataset.column = i;
+    celda.dataset.row = i;
+    celda.dataset.column = j;
     celda.style.width = `${cellSize}px`;
     celda.style.height = `${cellSize}px`;
     celda.style.position = 'absolute';
-    celda.style.left = `${i*cellSize}px`;
-    celda.style.top = `${j*cellSize}px`;
+    celda.style.left = `${j*cellSize}px`;
+    celda.style.top = `${i*cellSize}px`;
     celda.style.fontSize = `${cellSize-20}px`;
     celda.innerHTML = emoji;
     celda.id=`${j}-${i}`
     celda.addEventListener('click', clickearCeldas);
     return celda;
 }
- 
 
+//Bloque horizontal
+const tieneBloqueHorizontal = (matriz) => {
+    for(let i = 0; i < matriz.length; i++) {
+        const array = matriz[i];
+        for(let j = 0; j < array.length; j++) {
+            if(array[j] === array[j + 1] && array[j] === array[j + 2]) {
+                let arraycito = [];
+                arraycito.push(array[j]);
+                arraycito.push(array[j+1]);
+                arraycito.push(array[j+2]);
+                
+                let y=j;
+                let m=0;
+                for(let x=3; m<1; x++){
+                    if(array[y+2] === array[j+x]){
+                        arraycito.push(array[j+x]);
+                        y++;
+                    }else{
+                        m++;;
+                    }
+                 } console.log(arraycito);
+            }
+        }
+    }
+}
 // Dificultad
 botonFacil.addEventListener("click", ()=>{
 	cellSize = 56;
     crearMatriz(9,cellSize);
+    tieneBloqueHorizontal(arrayMatriz);
 });
 botonNormal.addEventListener("click", ()=>{
     cellSize = 63,
 	crearMatriz(8,cellSize);
+    tieneBloqueHorizontal(arrayMatriz);
 });
 botonDificil.addEventListener("click", ()=>{
     cellSize = 72;
 	crearMatriz(7,cellSize);
+    tieneBloqueHorizontal(arrayMatriz);
 });
 
 //Intercambiar Posiciones
@@ -159,7 +186,15 @@ const moverCelda = (clickAnterior, clickPosterior, dataRowAnterior, dataColumnAn
     clickAnterior.dataset.column = dataColumnPosterior;
     clickPosterior.dataset.row = dataRowAnterior;
     clickPosterior.dataset.column = dataColumnAnterior;
+    //intercambia emojis de la matriz:
+    arrayMatriz[dataRowPosterior][dataColumnPosterior] = clickAnterior.innerHTML;
+    console.log(arrayMatriz[dataRowPosterior][dataColumnPosterior])
+    arrayMatriz[dataRowAnterior][dataColumnAnterior] = clickPosterior.innerHTML;    
+    console.log(arrayMatriz[dataRowAnterior][dataColumnAnterior])
 }
+
+
+
 //Seleccion item
 let clickAnterior = null;
 const clickearCeldas = (e) =>{
@@ -179,6 +214,7 @@ const clickearCeldas = (e) =>{
                 clickAnterior = clickPosterior;
             }else{
                 moverCelda(clickAnterior, clickPosterior, dataRowAnterior, dataColumnAnterior, dataRowPosterior, dataColumnPosterior)
+                tieneBloqueHorizontal(arrayMatriz);
                 clickAnterior.classList.remove("seleccion-celda")
                 clickAnterior = null;
             }
@@ -192,3 +228,4 @@ const clickearCeldas = (e) =>{
         clickAnterior.classList.add("seleccion-celda");
     }
 }
+
