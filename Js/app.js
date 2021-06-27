@@ -101,7 +101,7 @@ document.body.appendChild(botonDificil);
 //Generar grilla
 let cellSize;
 let cantidad;
-const arrayMatriz = [];
+let arrayMatriz = [];
 const emojis = ["🐸", "🐷", "🦝", "🐔", "🐵", "🐱"]
 
 const crearMatriz = (cantidad,tamanio) =>{
@@ -114,8 +114,8 @@ const crearMatriz = (cantidad,tamanio) =>{
             arrayMatriz[i][j]= emoji;
             grilla.append(crearCeldas(i, j, emoji, cellSize));
         }
-        console.log(arrayMatriz)
-    }
+        
+    }console.log(arrayMatriz)
 }
 let celda;
 const crearCeldas = (i, j, emoji, cellSize) =>{
@@ -152,7 +152,7 @@ const tieneBloqueHorizontal = (matriz) => {
                         arraycito.push(array[j+x]);
                         y++;
                     }else{
-                        m++;;
+                        m++;
                     }
                  } console.log(arraycito);
             }
@@ -164,6 +164,7 @@ const tieneBloqueHorizontal = (matriz) => {
 
 const vaciarGrilla = () => {
     grilla.innerHTML = "";
+    arrayMatriz = [];
 }
 
 let grillaVacia = true;
@@ -174,6 +175,7 @@ const activarGrilla = (cantidad, cellSize) =>{
         grillaVacia = false;
     }else{
         vaciarGrilla(grilla);
+        console.log(arrayMatriz)
         crearMatriz(cantidad,cellSize);
     }
 }
@@ -252,9 +254,54 @@ const clickearCeldas = (e) =>{
     }
 }
 
+
 swal({
     title: "¡Bienvenida!",
     text: "En MatcheADAs tu objetivo es juntar tres o más ítems del mismo tipo, ya sea en fila o columna. Para eso, selecciona un ítem y a continuación un ítem adyacente para intercambiarlos de lugar.",
     
-    button: "A Jugar",
-});
+    buttons: {
+        
+        catch: {
+          text: "A jugar",
+          value: "catch",
+        },
+        
+      },
+    
+})
+    .then((value) =>{ 
+        
+          
+swal({
+    title:"Nuevo juego",
+    text: "Selecciona una dificultad",
+        buttons: {
+            confirm: {
+              text: "Fácil",
+              value: true,
+              visible: true,
+              className: "",
+              closeModal: true
+            },
+            catch: {
+                text: "Normal",
+                value: true,
+                visible: true,
+                className: "",
+                closeModal: true
+              },
+            cancel: {
+              text: "Difícil",
+              value: true,
+              visible: true,
+              className: "",
+              closeModal: true,
+            }
+          }
+        })
+    })
+
+
+    
+        
+      
