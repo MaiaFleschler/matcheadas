@@ -148,21 +148,29 @@ botonDificil.addEventListener("click", ()=>{
 	crearMatriz(7,cellSize);
 });
 
+//Intercambiar Posiciones
+const moverCelda = (clickAnterior, clickPosterior, dataRowAnterior, dataColumnAnterior, dataRowPosterior, dataColumnPosterior) =>{
+    clickAnterior.style.top = `${dataRowPosterior * cellSize}px`
+    clickAnterior.style.left = `${dataColumnPosterior * cellSize}px`
+    clickPosterior.style.top = `${dataRowAnterior * cellSize}px`
+    clickPosterior.style.left = `${dataColumnAnterior * cellSize}px`
+
+    clickAnterior.dataset.row = dataRowPosterior;
+    clickAnterior.dataset.column = dataColumnPosterior;
+    clickPosterior.dataset.row = dataRowAnterior;
+    clickPosterior.dataset.column = dataColumnAnterior;
+}
 //Seleccion item
 let clickAnterior = null;
 const clickearCeldas = (e) =>{
     const clickPosterior = e.target;
-
     if(clickAnterior){
-        console.log("esto funciona");
         const dataRowAnterior = clickAnterior.dataset.row;
         const dataRowPosterior = clickPosterior.dataset.row;
         const dataColumnAnterior = clickAnterior.dataset.column;
         const dataColumnPosterior = clickPosterior.dataset.column;
         const distanciaRow = dataRowAnterior - dataRowPosterior;
         const distanciaColumn = dataColumnAnterior - dataColumnPosterior;
-        console.log(`${distanciaColumn} distanciacolumn`)
-        console.log(`${distanciaRow} distanciarow`)
 
         if((distanciaRow >= -1 && distanciaRow <= 1) && (distanciaColumn >= -1 && distanciaColumn <= 1)){ //horizontales y verticales adyacentes
             if((distanciaRow === 1 || distanciaRow === -1) && (distanciaColumn === 1 || distanciaColumn === -1)){ //omite diagonales adyacentes 
@@ -170,16 +178,7 @@ const clickearCeldas = (e) =>{
                 clickAnterior.classList.remove("seleccion-celda");
                 clickAnterior = clickPosterior;
             }else{
-                clickAnterior.style.top = `${dataRowPosterior * cellSize}px`
-                clickAnterior.style.left = `${dataColumnPosterior * cellSize}px`
-                clickPosterior.style.top = `${dataRowAnterior * cellSize}px`
-                clickPosterior.style.left = `${dataColumnAnterior * cellSize}px`
-
-                clickAnterior.dataset.row = dataRowPosterior;
-                clickAnterior.dataset.column = dataColumnPosterior;
-                clickPosterior.dataset.row = dataRowAnterior;
-                clickPosterior.dataset.column = dataColumnAnterior;
-
+                moverCelda(clickAnterior, clickPosterior, dataRowAnterior, dataColumnAnterior, dataRowPosterior, dataColumnPosterior)
                 clickAnterior.classList.remove("seleccion-celda")
                 clickAnterior = null;
             }
