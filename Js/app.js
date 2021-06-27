@@ -252,3 +252,9 @@ const clickearCeldas = (e) =>{
     }
 }
 
+swal({
+    title: "¡Bienvenida!",
+    text: "En MatcheADAs tu objetivo es juntar tres o más ítems del mismo tipo, ya sea en fila o columna. Para eso, selecciona un ítem y a continuación un ítem adyacente para intercambiarlos de lugar.",
+    
+    button: "A Jugar",
+});
