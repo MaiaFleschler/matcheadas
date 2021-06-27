@@ -100,6 +100,7 @@ document.body.appendChild(botonDificil);
 
 //Generar grilla
 let cellSize;
+let cantidad;
 const arrayMatriz = [];
 const emojis = ["🐸", "🐷", "🦝", "🐔", "🐵", "🐱"]
 
@@ -133,6 +134,23 @@ const crearCeldas = (i, j, emoji, cellSize) =>{
     return celda;
 }
 
+// Completar o vaciar Grilla
+
+const vaciarGrilla = () => {
+    grilla.innerHTML = "";
+}
+
+let grillaVacia = true;
+
+const activarGrilla = (cantidad, cellSize) =>{
+    if (grillaVacia === true){
+        crearMatriz(cantidad,cellSize);
+        grillaVacia = false;
+    }else{
+        vaciarGrilla(grilla);
+        crearMatriz(cantidad,cellSize);
+    }
+}
 //Bloque horizontal
 const tieneBloqueHorizontal = (matriz) => {
     for(let i = 0; i < matriz.length; i++) {
@@ -158,20 +176,25 @@ const tieneBloqueHorizontal = (matriz) => {
         }
     }
 }
+
+
 // Dificultad
 botonFacil.addEventListener("click", ()=>{
-	cellSize = 56;
-    crearMatriz(9,cellSize);
+	cantidad = 9;
+    cellSize = 56;
+    activarGrilla(cantidad,cellSize);
     tieneBloqueHorizontal(arrayMatriz);
 });
 botonNormal.addEventListener("click", ()=>{
-    cellSize = 63,
-	crearMatriz(8,cellSize);
+    cantidad = 8;
+    cellSize = 63;
+	activarGrilla(cantidad,cellSize);
     tieneBloqueHorizontal(arrayMatriz);
 });
 botonDificil.addEventListener("click", ()=>{
+    cantidad = 7;
     cellSize = 72;
-	crearMatriz(7,cellSize);
+	activarGrilla(cantidad,cellSize);
     tieneBloqueHorizontal(arrayMatriz);
 });
 
