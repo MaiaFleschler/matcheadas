@@ -63,13 +63,6 @@ botonReiniciar.appendChild(iconoBotonReiniciar);
 botonReiniciar.setAttribute("class","botonControl");
 iconoBotonReiniciar.setAttribute("class","fas fa-redo");
 
-const botonFacil = document.createElement("button");
-const botonNormal = document.createElement("button");
-const botonDificil = document.createElement("button");
-const botonFacilTexto = document.createTextNode("Facil");
-const botonNormalTexto = document.createTextNode("Normal");
-const botonDificilTexto = document.createTextNode("Dificil");
-
 const contenedorGrilla = document.createElement("div");
 contenedorGrilla.setAttribute("class", "contenedorGrilla");
 const grilla = document.createElement("div");
@@ -91,16 +84,7 @@ const textoReloj = document.createTextNode ("  0:00");
 parrafoReloj.appendChild(textoReloj);
 
 
-botonFacil.appendChild(botonFacilTexto);
-botonNormal.appendChild(botonNormalTexto);
-botonDificil.appendChild(botonDificilTexto);
-document.body.appendChild(botonFacil);
-document.body.appendChild(botonNormal);
-document.body.appendChild(botonDificil);
-
 //Generar grilla
-let cellSize;
-let cantidad;
 let arrayMatriz = [];
 const emojis = ["🐸", "🐷", "🦝", "🐔", "🐵", "🐱"]
 
@@ -180,26 +164,6 @@ const activarGrilla = (cantidad, cellSize) =>{
     }
 }
 
-// Dificultad
-botonFacil.addEventListener("click", ()=>{
-	cantidad = 9;
-    cellSize = 56;
-    activarGrilla(cantidad,cellSize);
-    tieneBloqueHorizontal(arrayMatriz);
-});
-botonNormal.addEventListener("click", ()=>{
-    cantidad = 8;
-    cellSize = 63;
-	activarGrilla(cantidad,cellSize);
-    tieneBloqueHorizontal(arrayMatriz);
-});
-botonDificil.addEventListener("click", ()=>{
-    cantidad = 7;
-    cellSize = 72;
-	activarGrilla(cantidad,cellSize);
-    tieneBloqueHorizontal(arrayMatriz);
-});
-
 //Intercambiar Posiciones
 const moverCelda = (clickAnterior, clickPosterior, dataRowAnterior, dataColumnAnterior, dataRowPosterior, dataColumnPosterior) =>{
     clickAnterior.style.top = `${dataRowPosterior * cellSize}px`
@@ -255,53 +219,70 @@ const clickearCeldas = (e) =>{
 }
 
 
-swal({
-    title: "¡Bienvenida!",
-    text: "En MatcheADAs tu objetivo es juntar tres o más ítems del mismo tipo, ya sea en fila o columna. Para eso, selecciona un ítem y a continuación un ítem adyacente para intercambiarlos de lugar.",
-    
-    buttons: {
-        
-        catch: {
-          text: "A jugar",
-          value: "catch",
-        },
-        
-      },
-    
-})
-    .then((value) =>{ 
-        
-          
+// Dificultad
+
+let cellSize;
+let cantidad;
+
+const mostrarModalDificultad = () =>{          
 swal({
     title:"Nuevo juego",
     text: "Selecciona una dificultad",
-        buttons: {
-            confirm: {
-              text: "Fácil",
-              value: true,
-              visible: true,
-              className: "",
-              closeModal: true
-            },
-            catch: {
-                text: "Normal",
-                value: true,
-                visible: true,
-                className: "",
-                closeModal: true
-              },
-            cancel: {
-              text: "Difícil",
-              value: true,
-              visible: true,
-              className: "",
-              closeModal: true,
-            }
-          }
-        })
-    })
+    buttons: {
+        facil: {
+            text: "Fácil",
+            value: "facil",
+        },
+        normal: {
+            text: "Normal",
+            value: "normal",
+        },
+        dificil: {
+            text: "Difícil",
+            value: "dificil",
+        },
+    },
+}).then((value) => {
+    switch (value) {
+        case "facil":
+            cantidad = 9;
+            cellSize = 56;
+            activarGrilla(cantidad,cellSize);
+            tieneBloqueHorizontal(arrayMatriz);
+            break;
 
+        case "normal":
+            cantidad = 8;
+            cellSize = 63;
+            activarGrilla(cantidad,cellSize);
+            tieneBloqueHorizontal(arrayMatriz);
+            break;
 
-    
-        
-      
+        case "dificil":
+            cantidad = 7;
+            cellSize = 72;
+            activarGrilla(cantidad,cellSize);
+            tieneBloqueHorizontal(arrayMatriz);
+            break;
+
+        default:
+            swal("Hubo un error!");
+            mostrarModalBienvenida();
+    }
+});
+};
+
+const span = document.createElement("span");
+span.innerHTML="En MatcheADAs tu objetivo es juntar tres o más ítems del mismo tipo, ya sea en fila o columna. Para eso, selecciona un ítem y a continuación un ítem adyacente para intercambiarlos de lugar.<br><br> Si se forma un grupo, esos items se eliminarán y ganarás puntos. ¡Sigue armando grupos de 3 o más antes de que se acabe el tiempo! <br><br><strong>Controles</strong><br>Click izquierdo: Selección <br>Enter o Espacio: Selección <br>Flechas o WASD: Movimiento e intercambio"
+
+const mostrarModalBienvenida = () => {
+    swal({
+        title: "¡Bienvenida!",
+        content: span,
+        button: "A jugar",
+    }).then(() => {
+        mostrarModalDificultad();
+    });
+};    
+
+mostrarModalBienvenida();
