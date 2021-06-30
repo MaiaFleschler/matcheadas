@@ -285,4 +285,25 @@ const mostrarModalBienvenida = () => {
     });
 };    
 
+const reiniciarJuego = () => {
+    swal({
+        title: "Reiniciar juego?",
+        text: "Perderás todo tu puntaje acumulado!",
+        buttons: {
+            cancel: "Cancelar",
+            nuevoJuego: {
+                text: "Nuevo juego",
+                value: "resetear",
+            },
+        },
+    }).then((value) => {
+        if(value==="resetear"){
+        mostrarModalDificultad();
+        }
+    });
+};    
+
 mostrarModalBienvenida();
+botonReiniciar.addEventListener("click", ()=>{
+    reiniciarJuego();
+})
