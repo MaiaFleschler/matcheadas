@@ -227,11 +227,12 @@ let cantidad;
 const mostrarModalDificultad = () =>{          
 swal({
     title:"Nuevo juego",
-    text: "Selecciona una dificultad",
+    text: "Selecciona una dificultad",  
+    closeOnClickOutside: false, 
     buttons: {
         facil: {
             text: "Fácil",
-            value: "facil",
+            value: "facil",            
         },
         normal: {
             text: "Normal",
@@ -239,7 +240,7 @@ swal({
         },
         dificil: {
             text: "Difícil",
-            value: "dificil",
+            value: "dificil",            
         },
     },
 }).then((value) => {
@@ -280,6 +281,7 @@ const mostrarModalBienvenida = () => {
         title: "¡Bienvenida!",
         content: span,
         button: "A jugar",
+        closeOnClickOutside: false,
     }).then(() => {
         mostrarModalDificultad();
     });
@@ -289,6 +291,7 @@ const reiniciarJuego = () => {
     swal({
         title: "Reiniciar juego?",
         text: "Perderás todo tu puntaje acumulado!",
+        closeOnClickOutside: false,
         buttons: {
             cancel: "Cancelar",
             nuevoJuego: {
@@ -307,3 +310,31 @@ mostrarModalBienvenida();
 botonReiniciar.addEventListener("click", ()=>{
     reiniciarJuego();
 })
+botonInformacion.addEventListener("click",()=>{
+    swal({
+        title: "¡Bienvenida!",
+        content: span,
+        button: "A jugar",
+        closeOnClickOutside: false,
+    })
+})
+
+const juegoTerminado = () => {
+    swal({
+        title: "¡Juego terminado!",
+        text: "Puntaje final: 0",
+        closeOnClickOutside: false,
+        buttons: {
+            reiniciar: "Reiniciar",
+            nuevoJuego: {
+                text: "Nuevo juego",
+                value: "resetear",
+            },
+        },
+    }).then((value) => {
+        if(value==="resetear"){
+        mostrarModalDificultad();
+        }
+    });
+};    
+
