@@ -138,11 +138,37 @@ const tieneBloqueHorizontal = (matriz) => {
                     }else{
                         m++;
                     }
-                 } console.log(arraycito);
+                 } console.log("horizontal" +arraycito);
             }
         }
     }
 }
+//Bloque vertical
+const tieneBloqueVertical = (matriz) => {
+    for(let i = 0; i < matriz.length; i++){
+        for(let j = 0; j < matriz[i].length-2; j++){
+            if(matriz[j][i] === matriz[j + 1][i] && matriz[j][i] === matriz[j + 2][i]){ 
+                let arraycitoV = [];
+                arraycitoV.push(matriz[j][i]);
+                arraycitoV.push(matriz[j+1][i]);
+                arraycitoV.push(matriz[j+2][i]);
+                
+                let y=j;
+            
+                for(let x=3; y<matriz[i].length-4; x++){
+                    if(matriz[y+2][i] === matriz[j+x][i]){
+                        arraycitoV.push(matriz[j+x][i]);
+                        y++;
+                    }else{
+                        break;
+                    }
+                }
+                console.log("vertical" + arraycitoV);
+            }
+        }
+    }
+}
+
 
 // Completar o vaciar Grilla
 
@@ -204,6 +230,7 @@ const clickearCeldas = (e) =>{
             }else{
                 moverCelda(clickAnterior, clickPosterior, dataRowAnterior, dataColumnAnterior, dataRowPosterior, dataColumnPosterior)
                 tieneBloqueHorizontal(arrayMatriz);
+                tieneBloqueVertical(arrayMatriz);
                 clickAnterior.classList.remove("seleccion-celda")
                 clickAnterior = null;
             }
@@ -250,6 +277,7 @@ swal({
             cellSize = 56;
             activarGrilla(cantidad,cellSize);
             tieneBloqueHorizontal(arrayMatriz);
+            tieneBloqueVertical(arrayMatriz);
             break;
 
         case "normal":
@@ -257,6 +285,7 @@ swal({
             cellSize = 63;
             activarGrilla(cantidad,cellSize);
             tieneBloqueHorizontal(arrayMatriz);
+            tieneBloqueVertical(arrayMatriz);
             break;
 
         case "dificil":
@@ -264,6 +293,7 @@ swal({
             cellSize = 72;
             activarGrilla(cantidad,cellSize);
             tieneBloqueHorizontal(arrayMatriz);
+            tieneBloqueVertical(arrayMatriz);
             break;
 
         default:
@@ -337,4 +367,5 @@ const juegoTerminado = () => {
         }
     });
 };    
+
 
