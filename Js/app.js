@@ -195,13 +195,19 @@ const getCeldaDom = (fila,columna)=>{
     const celda = document.getElementById(`${fila}-${columna}`);
     return celda;
 }
-
-//funcion borrar bloques
-const eliminarBloques =()=>{
+const unirBloques =()=>{
     const arraycitoH = tieneBloqueHorizontal();
     const arraycitoV = tieneBloqueVertical();
     const arrayABorrar = arraycitoH.concat(arraycitoV);
-    for(let elemento of arrayABorrar){
+    return arrayABorrar;
+
+}
+
+
+//funcion borrar bloques
+const eliminarBloques =()=>{
+    const arrayABorrar = unirBloques();
+        for(let elemento of arrayABorrar){
         let fila = Number(elemento.slice(0,1));
         let columna = Number(elemento.slice(1));
         console.log(fila,columna);
@@ -209,6 +215,7 @@ const eliminarBloques =()=>{
         getCeldaDom(fila,columna).innerHTML="";
     } console.log(arrayMatriz);        
 }
+
 
 
 
@@ -230,7 +237,17 @@ const moverCelda = (clickAnterior, clickPosterior, dataRowAnterior, dataColumnAn
     console.log(arrayMatriz[dataRowAnterior][dataColumnAnterior])
 }
 
+//Devolver Item
+const devolverItem =(clickAnterior, clickPosterior, dataRowAnterior, dataColumnAnterior, dataRowPosterior, dataColumnPosterior)=>{
+    const arrayABorrar = unirBloques();
+    if(arrayABorrar.length === 0){
+        moverCelda(clickPosterior, clickAnterior, dataRowPosterior, dataColumnPosterior, dataRowAnterior, dataColumnAnterior)
+    }else{
+        moverCelda(clickAnterior, clickPosterior, dataRowAnterior, dataColumnAnterior, dataRowPosterior, dataColumnPosterior)
+        eliminarBloques();
+    }
 
+}
 
 //Seleccion item
 let clickAnterior = null;
@@ -250,10 +267,9 @@ const clickearCeldas = (e) =>{
                 clickAnterior.classList.remove("seleccion-celda");
                 clickAnterior = clickPosterior;
             }else{
-                moverCelda(clickAnterior, clickPosterior, dataRowAnterior, dataColumnAnterior, dataRowPosterior, dataColumnPosterior)
+                devolverItem(clickAnterior, clickPosterior, dataRowAnterior, dataColumnAnterior, dataRowPosterior, dataColumnPosterior);
                 clickAnterior.classList.remove("seleccion-celda")
-                clickAnterior = null;
-                
+                clickAnterior = null;                
             }
         }else{ //items no adyacentes    
             clickPosterior.classList.add("seleccion-celda");
