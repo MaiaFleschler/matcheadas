@@ -118,6 +118,23 @@ const crearCeldas = (i, j, emoji, cellSize) =>{
     return celda;
 }
 
+// Completar o vaciar Grilla
+
+const vaciarGrilla = () => {
+    grilla.innerHTML = "";
+}
+
+let grillaVacia = true;
+
+const activarGrilla = (cantidad, cellSize) =>{
+    if (grillaVacia === true){
+        crearMatriz(cantidad,cellSize);
+        grillaVacia = false;
+    }else{
+        vaciarGrilla(grilla);
+        crearMatriz(cantidad,cellSize);
+    }
+}
 //Bloque horizontal
 const tieneBloqueHorizontal = (matriz) => {
     for(let i = 0; i < matriz.length; i++) {
@@ -144,25 +161,7 @@ const tieneBloqueHorizontal = (matriz) => {
     }
 }
 
-// Completar o vaciar Grilla
 
-const vaciarGrilla = () => {
-    grilla.innerHTML = "";
-    arrayMatriz = [];
-}
-
-let grillaVacia = true;
-
-const activarGrilla = (cantidad, cellSize) =>{
-    if (grillaVacia === true){
-        crearMatriz(cantidad,cellSize);
-        grillaVacia = false;
-    }else{
-        vaciarGrilla(grilla);
-        console.log(arrayMatriz)
-        crearMatriz(cantidad,cellSize);
-    }
-}
 
 //Intercambiar Posiciones
 const moverCelda = (clickAnterior, clickPosterior, dataRowAnterior, dataColumnAnterior, dataRowPosterior, dataColumnPosterior) =>{
