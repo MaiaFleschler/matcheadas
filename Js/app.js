@@ -63,13 +63,6 @@ botonReiniciar.appendChild(iconoBotonReiniciar);
 botonReiniciar.setAttribute("class","botonControl");
 iconoBotonReiniciar.setAttribute("class","fas fa-redo");
 
-const botonFacil = document.createElement("button");
-const botonNormal = document.createElement("button");
-const botonDificil = document.createElement("button");
-const botonFacilTexto = document.createTextNode("Facil");
-const botonNormalTexto = document.createTextNode("Normal");
-const botonDificilTexto = document.createTextNode("Dificil");
-
 const contenedorGrilla = document.createElement("div");
 contenedorGrilla.setAttribute("class", "contenedorGrilla");
 const grilla = document.createElement("div");
@@ -91,17 +84,8 @@ const textoReloj = document.createTextNode ("  0:00");
 parrafoReloj.appendChild(textoReloj);
 
 
-botonFacil.appendChild(botonFacilTexto);
-botonNormal.appendChild(botonNormalTexto);
-botonDificil.appendChild(botonDificilTexto);
-document.body.appendChild(botonFacil);
-document.body.appendChild(botonNormal);
-document.body.appendChild(botonDificil);
-
 //Generar grilla
-let cellSize;
-let cantidad;
-const arrayMatriz = [];
+let arrayMatriz = [];
 const emojis = ["🐸", "🐷", "🦝", "🐔", "🐵", "🐱"]
 
 const crearMatriz = (cantidad,tamanio) =>{
@@ -114,8 +98,8 @@ const crearMatriz = (cantidad,tamanio) =>{
             arrayMatriz[i][j]= emoji;
             grilla.append(crearCeldas(i, j, emoji, cellSize));
         }
-        console.log(arrayMatriz)
-    }
+        
+    }console.log(arrayMatriz)
 }
 let celda;
 const crearCeldas = (i, j, emoji, cellSize) =>{
@@ -169,7 +153,7 @@ const tieneBloqueHorizontal = (matriz) => {
                         arraycito.push(array[j+x]);
                         y++;
                     }else{
-                        m++;;
+                        m++;
                     }
                  } console.log(arraycito);
             }
@@ -178,25 +162,6 @@ const tieneBloqueHorizontal = (matriz) => {
 }
 
 
-// Dificultad
-botonFacil.addEventListener("click", ()=>{
-	cantidad = 9;
-    cellSize = 56;
-    activarGrilla(cantidad,cellSize);
-    tieneBloqueHorizontal(arrayMatriz);
-});
-botonNormal.addEventListener("click", ()=>{
-    cantidad = 8;
-    cellSize = 63;
-	activarGrilla(cantidad,cellSize);
-    tieneBloqueHorizontal(arrayMatriz);
-});
-botonDificil.addEventListener("click", ()=>{
-    cantidad = 7;
-    cellSize = 72;
-	activarGrilla(cantidad,cellSize);
-    tieneBloqueHorizontal(arrayMatriz);
-});
 
 //Intercambiar Posiciones
 const moverCelda = (clickAnterior, clickPosterior, dataRowAnterior, dataColumnAnterior, dataRowPosterior, dataColumnPosterior) =>{
@@ -251,4 +216,124 @@ const clickearCeldas = (e) =>{
         clickAnterior.classList.add("seleccion-celda");
     }
 }
+
+
+// Dificultad
+
+let cellSize;
+let cantidad;
+
+const mostrarModalDificultad = () =>{          
+swal({
+    title:"Nuevo juego",
+    text: "Selecciona una dificultad",  
+    closeOnClickOutside: false, 
+    buttons: {
+        facil: {
+            text: "Fácil",
+            value: "facil",            
+        },
+        normal: {
+            text: "Normal",
+            value: "normal",
+        },
+        dificil: {
+            text: "Difícil",
+            value: "dificil",            
+        },
+    },
+}).then((value) => {
+    switch (value) {
+        case "facil":
+            cantidad = 9;
+            cellSize = 56;
+            activarGrilla(cantidad,cellSize);
+            tieneBloqueHorizontal(arrayMatriz);
+            break;
+
+        case "normal":
+            cantidad = 8;
+            cellSize = 63;
+            activarGrilla(cantidad,cellSize);
+            tieneBloqueHorizontal(arrayMatriz);
+            break;
+
+        case "dificil":
+            cantidad = 7;
+            cellSize = 72;
+            activarGrilla(cantidad,cellSize);
+            tieneBloqueHorizontal(arrayMatriz);
+            break;
+
+        default:
+            swal("Hubo un error!");
+            mostrarModalBienvenida();
+    }
+});
+};
+
+const span = document.createElement("span");
+span.innerHTML="En MatcheADAs tu objetivo es juntar tres o más ítems del mismo tipo, ya sea en fila o columna. Para eso, selecciona un ítem y a continuación un ítem adyacente para intercambiarlos de lugar.<br><br> Si se forma un grupo, esos items se eliminarán y ganarás puntos. ¡Sigue armando grupos de 3 o más antes de que se acabe el tiempo! <br><br><strong>Controles</strong><br>Click izquierdo: Selección <br>Enter o Espacio: Selección <br>Flechas o WASD: Movimiento e intercambio"
+
+const mostrarModalBienvenida = () => {
+    swal({
+        title: "¡Bienvenida!",
+        content: span,
+        button: "A jugar",
+        closeOnClickOutside: false,
+    }).then(() => {
+        mostrarModalDificultad();
+    });
+};    
+
+const reiniciarJuego = () => {
+    swal({
+        title: "Reiniciar juego?",
+        text: "Perderás todo tu puntaje acumulado!",
+        closeOnClickOutside: false,
+        buttons: {
+            cancel: "Cancelar",
+            nuevoJuego: {
+                text: "Nuevo juego",
+                value: "resetear",
+            },
+        },
+    }).then((value) => {
+        if(value==="resetear"){
+        mostrarModalDificultad();
+        }
+    });
+};    
+
+mostrarModalBienvenida();
+botonReiniciar.addEventListener("click", ()=>{
+    reiniciarJuego();
+})
+botonInformacion.addEventListener("click",()=>{
+    swal({
+        title: "¡Bienvenida!",
+        content: span,
+        button: "A jugar",
+        closeOnClickOutside: false,
+    })
+})
+
+const juegoTerminado = () => {
+    swal({
+        title: "¡Juego terminado!",
+        text: "Puntaje final: 0",
+        closeOnClickOutside: false,
+        buttons: {
+            reiniciar: "Reiniciar",
+            nuevoJuego: {
+                text: "Nuevo juego",
+                value: "resetear",
+            },
+        },
+    }).then((value) => {
+        if(value==="resetear"){
+        mostrarModalDificultad();
+        }
+    });
+};    
 
