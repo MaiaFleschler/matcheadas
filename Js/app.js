@@ -190,11 +190,13 @@ const tieneBloqueVertical = () => {
         }
     } return arraycitoV;
 }
-//Borrar celdas
+//Trae elemento del dom
 const getCeldaDom = (fila,columna)=>{
     const celda = document.getElementById(`${fila}-${columna}`);
     return celda;
 }
+
+//Une bloques horizontales y verticales
 const unirBloques =()=>{
     const arraycitoH = tieneBloqueHorizontal();
     const arraycitoV = tieneBloqueVertical();
@@ -217,8 +219,6 @@ const eliminarBloques =()=>{
 }
 
 
-
-
 //Intercambiar Posiciones
 const moverCelda = (clickAnterior, clickPosterior, dataRowAnterior, dataColumnAnterior, dataRowPosterior, dataColumnPosterior) =>{
     clickAnterior.style.top = `${dataRowPosterior * cellSize}px`
@@ -230,6 +230,9 @@ const moverCelda = (clickAnterior, clickPosterior, dataRowAnterior, dataColumnAn
     clickAnterior.dataset.column = dataColumnPosterior;
     clickPosterior.dataset.row = dataRowAnterior;
     clickPosterior.dataset.column = dataColumnAnterior;
+    //Interca cambiar Id
+    clickAnterior.setAttribute("id", `${dataRowPosterior}-${dataColumnPosterior}`);
+    clickPosterior.setAttribute("id", `${dataRowAnterior}-${dataColumnAnterior}`);
     //intercambia emojis de la matriz:
     arrayMatriz[dataRowPosterior][dataColumnPosterior] = clickAnterior.innerHTML;
     console.log(arrayMatriz[dataRowPosterior][dataColumnPosterior])
@@ -239,9 +242,10 @@ const moverCelda = (clickAnterior, clickPosterior, dataRowAnterior, dataColumnAn
 
 //Devolver Item
 const devolverItem =(clickAnterior, clickPosterior, dataRowAnterior, dataColumnAnterior, dataRowPosterior, dataColumnPosterior)=>{
-    const arrayABorrar = unirBloques();
-    if(arrayABorrar.length === 0){
-        moverCelda(clickPosterior, clickAnterior, dataRowPosterior, dataColumnPosterior, dataRowAnterior, dataColumnAnterior)
+    let arrayABorrar = unirBloques();
+    console.log(arrayABorrar);
+    if(arrayABorrar.length===0){
+        moverCelda(clickPosterior, clickAnterior, dataRowAnterior, dataColumnAnterior, dataRowPosterior, dataColumnPosterior)
     }else{
         moverCelda(clickAnterior, clickPosterior, dataRowAnterior, dataColumnAnterior, dataRowPosterior, dataColumnPosterior)
         eliminarBloques();
