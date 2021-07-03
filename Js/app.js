@@ -113,7 +113,7 @@ const crearCeldas = (i, j, emoji, cellSize) =>{
     celda.style.top = `${i*cellSize}px`;
     celda.style.fontSize = `${cellSize-20}px`;
     celda.innerHTML = emoji;
-    celda.id=`${j}-${i}`
+    celda.id=`${i}-${j}`
     celda.addEventListener('click', clickearCeldas);
     return celda;
 }
@@ -122,6 +122,7 @@ const crearCeldas = (i, j, emoji, cellSize) =>{
 
 const vaciarGrilla = () => {
     grilla.innerHTML = "";
+    arrayMatriz = [];
 }
 
 let grillaVacia = true;
@@ -136,55 +137,79 @@ const activarGrilla = (cantidad, cellSize) =>{
     }
 }
 //Bloque horizontal
-const tieneBloqueHorizontal = (matriz) => {
-    for(let i = 0; i < matriz.length; i++) {
-        const array = matriz[i];
+const tieneBloqueHorizontal = () => {
+    const arraycito = [];
+    for(let i = 0; i < arrayMatriz.length; i++) {
+        const array = arrayMatriz[i];
+
         for(let j = 0; j < array.length; j++) {
             if(array[j] === array[j + 1] && array[j] === array[j + 2]) {
-                let arraycito = [];
-                arraycito.push(array[j]);
-                arraycito.push(array[j+1]);
-                arraycito.push(array[j+2]);
+                
+                arraycito.push(`${i}${j}`);
+                arraycito.push(`${i}${j+1}`);
+                arraycito.push(`${i}${j+2}`);
                 
                 let y=j;
                 let m=0;
                 for(let x=3; m<1; x++){
                     if(array[y+2] === array[j+x]){
-                        arraycito.push(array[j+x]);
+                        arraycito.push(`${i}${j+x}`);
                         y++;
                     }else{
                         m++;
                     }
-                 } console.log("horizontal" +arraycito);
+                 } 
             }
         }
-    }
+    } return arraycito;
 }
 //Bloque vertical
-const tieneBloqueVertical = (matriz) => {
-    for(let i = 0; i < matriz.length; i++){
-        for(let j = 0; j < matriz[i].length-2; j++){
-            if(matriz[j][i] === matriz[j + 1][i] && matriz[j][i] === matriz[j + 2][i]){ 
-                let arraycitoV = [];
-                arraycitoV.push(matriz[j][i]);
-                arraycitoV.push(matriz[j+1][i]);
-                arraycitoV.push(matriz[j+2][i]);
+const tieneBloqueVertical = () => {
+    
+    const arraycitoV = [];
+    for(let i = 0; i < arrayMatriz.length; i++){
+        for(let j = 0; j < arrayMatriz[i].length-2; j++){
+            if(arrayMatriz[j][i] === arrayMatriz[j + 1][i] && arrayMatriz[j][i] === arrayMatriz[j + 2][i]){ 
+                
+                arraycitoV.push(`${j}${i}`);
+                arraycitoV.push(`${j+1}${i}`);
+                arraycitoV.push(`${j+2}${i}`);
                 
                 let y=j;
             
-                for(let x=3; y<matriz[i].length-4; x++){
-                    if(matriz[y+2][i] === matriz[j+x][i]){
-                        arraycitoV.push(matriz[j+x][i]);
+                for(let x=3; y<arrayMatriz[i].length-4; x++){
+                    if(arrayMatriz[y+2][i] === arrayMatriz[j+x][i]){
+                        arraycitoV.push(`${j+x}${i}`);
                         y++;
                     }else{
                         break;
                     }
                 }
-                console.log("vertical" + arraycitoV);
+                
             }
         }
-    }
+    } return arraycitoV;
 }
+//Borrar celdas
+const getCeldaDom = (fila,columna)=>{
+    const celda = document.getElementById(`${fila}-${columna}`);
+    return celda;
+}
+
+//funcion borrar bloques
+const eliminarBloques =()=>{
+    const arraycitoH = tieneBloqueHorizontal();
+    const arraycitoV = tieneBloqueVertical();
+    const arrayABorrar = arraycitoH.concat(arraycitoV);
+    for(let elemento of arrayABorrar){
+        let fila = Number(elemento.slice(0,1));
+        let columna = Number(elemento.slice(1));
+        console.log(fila,columna);
+        arrayMatriz[fila][columna]="";
+        getCeldaDom(fila,columna).innerHTML="";
+    } console.log(arrayMatriz);        
+}
+
 
 
 //Intercambiar Posiciones
@@ -226,10 +251,9 @@ const clickearCeldas = (e) =>{
                 clickAnterior = clickPosterior;
             }else{
                 moverCelda(clickAnterior, clickPosterior, dataRowAnterior, dataColumnAnterior, dataRowPosterior, dataColumnPosterior)
-                tieneBloqueHorizontal(arrayMatriz);
-                tieneBloqueVertical(arrayMatriz);
                 clickAnterior.classList.remove("seleccion-celda")
                 clickAnterior = null;
+                
             }
         }else{ //items no adyacentes    
             clickPosterior.classList.add("seleccion-celda");
@@ -272,25 +296,22 @@ swal({
         case "facil":
             cantidad = 9;
             cellSize = 56;
-            activarGrilla(cantidad,cellSize);
-            tieneBloqueHorizontal(arrayMatriz);
-            tieneBloqueVertical(arrayMatriz);
+            activarGrilla(cantidad,cellSize);                   
+            eliminarBloques();
             break;
 
         case "normal":
             cantidad = 8;
             cellSize = 63;
             activarGrilla(cantidad,cellSize);
-            tieneBloqueHorizontal(arrayMatriz);
-            tieneBloqueVertical(arrayMatriz);
+            eliminarBloques();
             break;
 
         case "dificil":
             cantidad = 7;
             cellSize = 72;
             activarGrilla(cantidad,cellSize);
-            tieneBloqueHorizontal(arrayMatriz);
-            tieneBloqueVertical(arrayMatriz);
+            eliminarBloques();
             break;
 
         default:
