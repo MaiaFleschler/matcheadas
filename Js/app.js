@@ -88,6 +88,7 @@ parrafoReloj.appendChild(textoReloj);
 let arrayMatriz = [];
 const emojis = ["🐸", "🐷", "🦝", "🐔", "🐵", "🐱"]
 
+
 const crearMatriz = (cantidad,tamanio) =>{
     let matrizSize = cantidad;
     let cellSize = tamanio
@@ -138,7 +139,7 @@ const activarGrilla = (cantidad, cellSize) =>{
 }
 //Bloque horizontal
 const tieneBloqueHorizontal = () => {
-    const arraycito = [];
+    let arraycito = [];
     for(let i = 0; i < arrayMatriz.length; i++) {
         const array = arrayMatriz[i];
 
@@ -166,7 +167,7 @@ const tieneBloqueHorizontal = () => {
 //Bloque vertical
 const tieneBloqueVertical = () => {
     
-    const arraycitoV = [];
+    let arraycitoV = [];
     for(let i = 0; i < arrayMatriz.length; i++){
         for(let j = 0; j < arrayMatriz[i].length-2; j++){
             if(arrayMatriz[j][i] === arrayMatriz[j + 1][i] && arrayMatriz[j][i] === arrayMatriz[j + 2][i]){ 
@@ -190,26 +191,36 @@ const tieneBloqueVertical = () => {
         }
     } return arraycitoV;
 }
-//Borrar celdas
+//Trae elemento del dom
 const getCeldaDom = (fila,columna)=>{
     const celda = document.getElementById(`${fila}-${columna}`);
     return celda;
 }
 
-//funcion borrar bloques
-const eliminarBloques =()=>{
+//Une bloques horizontales y verticales
+const unirBloques =()=>{
+    let arrayABorrar = [];
     const arraycitoH = tieneBloqueHorizontal();
     const arraycitoV = tieneBloqueVertical();
-    const arrayABorrar = arraycitoH.concat(arraycitoV);
-    for(let elemento of arrayABorrar){
+    arrayABorrar = arraycitoH.concat(arraycitoV);
+    return arrayABorrar;
+
+}
+
+
+//funcion borrar bloques
+const emojisNO = ["📃","📜","📄","📑","📰","💴","💵","💶","🧾","💷"]; //emojis para completar espacios vacios
+const eliminarBloques =()=>{
+    const arrayABorrar = unirBloques();
+        for(let elemento of arrayABorrar){
         let fila = Number(elemento.slice(0,1));
         let columna = Number(elemento.slice(1));
         console.log(fila,columna);
-        arrayMatriz[fila][columna]="";
-        getCeldaDom(fila,columna).innerHTML="";
+        const emoji = emojisNO[Math.floor(Math.random()*(emojisNO.length-1))];
+        arrayMatriz[fila][columna]=emoji;
+        getCeldaDom(fila,columna).innerHTML=emoji;
     } console.log(arrayMatriz);        
 }
-
 
 
 //Intercambiar Posiciones
@@ -223,6 +234,9 @@ const moverCelda = (clickAnterior, clickPosterior, dataRowAnterior, dataColumnAn
     clickAnterior.dataset.column = dataColumnPosterior;
     clickPosterior.dataset.row = dataRowAnterior;
     clickPosterior.dataset.column = dataColumnAnterior;
+    //Interca cambiar Id
+    clickAnterior.setAttribute("id", `${dataRowPosterior}-${dataColumnPosterior}`);
+    clickPosterior.setAttribute("id", `${dataRowAnterior}-${dataColumnAnterior}`);
     //intercambia emojis de la matriz:
     arrayMatriz[dataRowPosterior][dataColumnPosterior] = clickAnterior.innerHTML;
     console.log(arrayMatriz[dataRowPosterior][dataColumnPosterior])
@@ -230,7 +244,15 @@ const moverCelda = (clickAnterior, clickPosterior, dataRowAnterior, dataColumnAn
     console.log(arrayMatriz[dataRowAnterior][dataColumnAnterior])
 }
 
-
+//Devolver Item
+const devolverItem =(clickAnterior, clickPosterior, dataRowAnterior, dataColumnAnterior, dataRowPosterior, dataColumnPosterior)=>{
+    moverCelda(clickAnterior, clickPosterior, dataRowAnterior, dataColumnAnterior, dataRowPosterior, dataColumnPosterior)
+    let arrayABorrar = unirBloques();
+    if(arrayABorrar.length===0){
+        moverCelda(clickPosterior, clickAnterior, dataRowAnterior, dataColumnAnterior, dataRowPosterior, dataColumnPosterior)
+    }
+    eliminarBloques();
+}
 
 //Seleccion item
 let clickAnterior = null;
@@ -250,10 +272,9 @@ const clickearCeldas = (e) =>{
                 clickAnterior.classList.remove("seleccion-celda");
                 clickAnterior = clickPosterior;
             }else{
-                moverCelda(clickAnterior, clickPosterior, dataRowAnterior, dataColumnAnterior, dataRowPosterior, dataColumnPosterior)
+                devolverItem(clickAnterior, clickPosterior, dataRowAnterior, dataColumnAnterior, dataRowPosterior, dataColumnPosterior);
                 clickAnterior.classList.remove("seleccion-celda")
-                clickAnterior = null;
-                
+                clickAnterior = null;                
             }
         }else{ //items no adyacentes    
             clickPosterior.classList.add("seleccion-celda");
