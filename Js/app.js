@@ -88,6 +88,7 @@ parrafoReloj.appendChild(textoReloj);
 let arrayMatriz = [];
 const emojis = ["🐸", "🐷", "🦝", "🐔", "🐵", "🐱"]
 
+
 const crearMatriz = (cantidad,tamanio) =>{
     let matrizSize = cantidad;
     let cellSize = tamanio
@@ -138,7 +139,7 @@ const activarGrilla = (cantidad, cellSize) =>{
 }
 //Bloque horizontal
 const tieneBloqueHorizontal = () => {
-    const arraycito = [];
+    let arraycito = [];
     for(let i = 0; i < arrayMatriz.length; i++) {
         const array = arrayMatriz[i];
 
@@ -166,7 +167,7 @@ const tieneBloqueHorizontal = () => {
 //Bloque vertical
 const tieneBloqueVertical = () => {
     
-    const arraycitoV = [];
+    let arraycitoV = [];
     for(let i = 0; i < arrayMatriz.length; i++){
         for(let j = 0; j < arrayMatriz[i].length-2; j++){
             if(arrayMatriz[j][i] === arrayMatriz[j + 1][i] && arrayMatriz[j][i] === arrayMatriz[j + 2][i]){ 
@@ -198,23 +199,26 @@ const getCeldaDom = (fila,columna)=>{
 
 //Une bloques horizontales y verticales
 const unirBloques =()=>{
+    let arrayABorrar = [];
     const arraycitoH = tieneBloqueHorizontal();
     const arraycitoV = tieneBloqueVertical();
-    const arrayABorrar = arraycitoH.concat(arraycitoV);
+    arrayABorrar = arraycitoH.concat(arraycitoV);
     return arrayABorrar;
 
 }
 
 
 //funcion borrar bloques
+const emojisNO = ["📃","📜","📄","📑","📰","💴","💵","💶","🧾","💷"]; //emojis para completar espacios vacios
 const eliminarBloques =()=>{
     const arrayABorrar = unirBloques();
         for(let elemento of arrayABorrar){
         let fila = Number(elemento.slice(0,1));
         let columna = Number(elemento.slice(1));
         console.log(fila,columna);
-        arrayMatriz[fila][columna]="";
-        getCeldaDom(fila,columna).innerHTML="";
+        const emoji = emojisNO[Math.floor(Math.random()*(emojisNO.length-1))];
+        arrayMatriz[fila][columna]=emoji;
+        getCeldaDom(fila,columna).innerHTML=emoji;
     } console.log(arrayMatriz);        
 }
 
@@ -242,15 +246,12 @@ const moverCelda = (clickAnterior, clickPosterior, dataRowAnterior, dataColumnAn
 
 //Devolver Item
 const devolverItem =(clickAnterior, clickPosterior, dataRowAnterior, dataColumnAnterior, dataRowPosterior, dataColumnPosterior)=>{
+    moverCelda(clickAnterior, clickPosterior, dataRowAnterior, dataColumnAnterior, dataRowPosterior, dataColumnPosterior)
     let arrayABorrar = unirBloques();
-    console.log(arrayABorrar);
     if(arrayABorrar.length===0){
         moverCelda(clickPosterior, clickAnterior, dataRowAnterior, dataColumnAnterior, dataRowPosterior, dataColumnPosterior)
-    }else{
-        moverCelda(clickAnterior, clickPosterior, dataRowAnterior, dataColumnAnterior, dataRowPosterior, dataColumnPosterior)
-        eliminarBloques();
     }
-
+    eliminarBloques();
 }
 
 //Seleccion item
