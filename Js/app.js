@@ -209,14 +209,12 @@ const unirBloques =()=>{
 
 
 //funcion borrar bloques
-// const emojisNO = ["📃","📜","📄","📑","📰","💴","💵","💶","🧾","💷"]; //emojis para completar espacios vacios
 const eliminarBloques =()=>{
     const arrayABorrar = unirBloques();
         for(let elemento of arrayABorrar){
         let fila = Number(elemento.slice(0,1));
         let columna = Number(elemento.slice(1));
         console.log(fila,columna);
-        //   const emoji = emojisNO[Math.floor(Math.random()*(emojisNO.length-1))];
         arrayMatriz[fila][columna]="";
         getCeldaDom(fila,columna).innerHTML="";
     } console.log(arrayMatriz);        
@@ -251,7 +249,6 @@ const devolverItem =(clickAnterior, clickPosterior, dataRowAnterior, dataColumnA
     if(arrayABorrar.length===0){
         moverCelda(clickPosterior, clickAnterior, dataRowAnterior, dataColumnAnterior, dataRowPosterior, dataColumnPosterior)
     }
-    eliminarBloques();
 }
 
 //Rellenar vacios
@@ -267,6 +264,7 @@ const rellenarVacios = () => {
         }
     }
 }
+
 
 //Descender Bloque
 const descenderBloque = () =>{
@@ -286,9 +284,18 @@ const descenderBloque = () =>{
                 }
             }
         }
-    } rellenarVacios();
-    eliminarBloques();
+    }
 }
+const cicloMatch = ()=>{
+    let arrayABorrar = unirBloques();
+    while(arrayABorrar.length !== 0){
+        eliminarBloques();
+        descenderBloque();
+        rellenarVacios();
+        arrayABorrar = unirBloques();
+    }
+}
+
 
 //Seleccion item
 let clickAnterior = null;
@@ -311,7 +318,7 @@ const clickearCeldas = (e) =>{
                 devolverItem(clickAnterior, clickPosterior, dataRowAnterior, dataColumnAnterior, dataRowPosterior, dataColumnPosterior);
                 clickAnterior.classList.remove("seleccion-celda")
                 clickAnterior = null;      
-                descenderBloque();      
+                cicloMatch();     
             }
         }else{ //items no adyacentes    
             clickPosterior.classList.add("seleccion-celda");
@@ -355,21 +362,21 @@ swal({
             cantidad = 9;
             cellSize = 56;
             activarGrilla(cantidad,cellSize);                   
-            eliminarBloques();
+            cicloMatch();
             break;
 
         case "normal":
             cantidad = 8;
             cellSize = 63;
             activarGrilla(cantidad,cellSize);
-            eliminarBloques();
+            cicloMatch();
             break;
 
         case "dificil":
             cantidad = 7;
             cellSize = 72;
             activarGrilla(cantidad,cellSize);
-            // eliminarBloques();
+            cicloMatch();
             break;
 
         default:
