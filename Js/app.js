@@ -209,16 +209,14 @@ const unirBloques =()=>{
 
 
 //funcion borrar bloques
-const emojisNO = ["📃","📜","📄","📑","📰","💴","💵","💶","🧾","💷"]; //emojis para completar espacios vacios
 const eliminarBloques =()=>{
     const arrayABorrar = unirBloques();
         for(let elemento of arrayABorrar){
         let fila = Number(elemento.slice(0,1));
         let columna = Number(elemento.slice(1));
         console.log(fila,columna);
-        const emoji = emojisNO[Math.floor(Math.random()*(emojisNO.length-1))];
-        arrayMatriz[fila][columna]=emoji;
-        getCeldaDom(fila,columna).innerHTML=emoji;
+        arrayMatriz[fila][columna]="";
+        getCeldaDom(fila,columna).innerHTML="";
     } console.log(arrayMatriz);        
 }
 
@@ -234,7 +232,7 @@ const moverCelda = (clickAnterior, clickPosterior, dataRowAnterior, dataColumnAn
     clickAnterior.dataset.column = dataColumnPosterior;
     clickPosterior.dataset.row = dataRowAnterior;
     clickPosterior.dataset.column = dataColumnAnterior;
-    //Interca cambiar Id
+    //Intercambia Id
     clickAnterior.setAttribute("id", `${dataRowPosterior}-${dataColumnPosterior}`);
     clickPosterior.setAttribute("id", `${dataRowAnterior}-${dataColumnAnterior}`);
     //intercambia emojis de la matriz:
@@ -251,8 +249,53 @@ const devolverItem =(clickAnterior, clickPosterior, dataRowAnterior, dataColumnA
     if(arrayABorrar.length===0){
         moverCelda(clickPosterior, clickAnterior, dataRowAnterior, dataColumnAnterior, dataRowPosterior, dataColumnPosterior)
     }
-    eliminarBloques();
 }
+
+//Rellenar vacios
+const rellenarVacios = () => {
+    for(let i = 0; i < arrayMatriz.length; i++) {
+        const array = arrayMatriz[i];
+        for(let j = 0; j < array.length; j++) {
+            if(arrayMatriz[i][j] === ""){
+                const emoji = emojis[Math.floor(Math.random()*(emojis.length-1))];
+                arrayMatriz[i][j]= emoji;
+                getCeldaDom(i,j).innerHTML=emoji;
+            }    
+        }
+    }
+}
+
+
+//Descender Bloque
+const descenderBloque = () =>{
+    for(let i = arrayMatriz.length-1; i >= 0; i--){
+        for(let j = arrayMatriz.length-1; j >= 0; j--){
+            if(arrayMatriz[i][j] === ""){
+                for(let k = i; k>=0 ; k--){ //recorre la columna de un espacio vacio para arriba
+                    if(arrayMatriz[k][j]!==""){
+                        let sig= arrayMatriz[k][j];
+                        let sig2 = getCeldaDom(k,j).innerHTML;
+                        arrayMatriz[i][j]=sig;
+                        getCeldaDom(i,j).innerHTML=sig2;
+                        arrayMatriz[k][j]="";
+                        getCeldaDom(k,j).innerHTML="";
+                        break;
+                    }
+                }
+            }
+        }
+    }
+}
+const cicloMatch = ()=>{
+    let arrayABorrar = unirBloques();
+    while(arrayABorrar.length !== 0){
+        eliminarBloques();
+        descenderBloque();
+        rellenarVacios();
+        arrayABorrar = unirBloques();
+    }
+}
+
 
 //Seleccion item
 let clickAnterior = null;
@@ -274,7 +317,8 @@ const clickearCeldas = (e) =>{
             }else{
                 devolverItem(clickAnterior, clickPosterior, dataRowAnterior, dataColumnAnterior, dataRowPosterior, dataColumnPosterior);
                 clickAnterior.classList.remove("seleccion-celda")
-                clickAnterior = null;                
+                clickAnterior = null;      
+                cicloMatch();     
             }
         }else{ //items no adyacentes    
             clickPosterior.classList.add("seleccion-celda");
@@ -318,21 +362,21 @@ swal({
             cantidad = 9;
             cellSize = 56;
             activarGrilla(cantidad,cellSize);                   
-            eliminarBloques();
+            cicloMatch();
             break;
 
         case "normal":
             cantidad = 8;
             cellSize = 63;
             activarGrilla(cantidad,cellSize);
-            eliminarBloques();
+            cicloMatch();
             break;
 
         case "dificil":
             cantidad = 7;
             cellSize = 72;
             activarGrilla(cantidad,cellSize);
-            eliminarBloques();
+            cicloMatch();
             break;
 
         default:
