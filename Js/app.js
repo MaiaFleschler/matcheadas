@@ -27,7 +27,7 @@ const textoCombo = document.createTextNode ("Combo x");
 parrafoCombo.appendChild(textoCombo);
 contenedorPuntaje.appendChild(parrafoCombo);
 const spanCombo = document.createElement("span");
-const txtSpanCombo = document.createTextNode(" 1");
+const txtSpanCombo = document.createTextNode(" 0");
 spanCombo.setAttribute("id","combo");
 spanCombo.appendChild(txtSpanCombo);
 parrafoCombo.appendChild(spanCombo);
@@ -286,14 +286,39 @@ const descenderBloque = () =>{
         }
     }
 }
-const cicloMatch = ()=>{
+//Puntaje
+const sumarPuntos = (cantidad)=>{
+    let puntaje = cantidad*100;
+    console.log(puntaje);
+    puntaje = 0;
+}
+
+const cicloMatchInicializar = ()=>{
     let arrayABorrar = unirBloques();
     while(arrayABorrar.length !== 0){
         eliminarBloques();
         descenderBloque();
         rellenarVacios();
         arrayABorrar = unirBloques();
-    }
+    } 
+}
+
+const cicloMatch = ()=>{
+    let arrayABorrar = unirBloques();
+    let contadorItems = 0;
+    while(arrayABorrar.length !== 0){
+        eliminarBloques();
+        descenderBloque();
+        rellenarVacios();
+        console.log(arrayABorrar);
+        contadorItems += arrayABorrar.length;
+        console.log("primer" + contadorItems);
+        arrayABorrar = unirBloques();
+        console.log(arrayABorrar);
+        contadorItems += arrayABorrar.length;
+        console.log("suma de los dos" +contadorItems);
+        sumarPuntos(contadorItems);
+    } 
 }
 
 
@@ -331,7 +356,6 @@ const clickearCeldas = (e) =>{
     }
 }
 
-
 // Dificultad
 
 let cellSize;
@@ -362,21 +386,21 @@ swal({
             cantidad = 9;
             cellSize = 56;
             activarGrilla(cantidad,cellSize);                   
-            cicloMatch();
+            cicloMatchInicializar();
             break;
 
         case "normal":
             cantidad = 8;
             cellSize = 63;
             activarGrilla(cantidad,cellSize);
-            cicloMatch();
+            cicloMatchInicializar();
             break;
 
         case "dificil":
             cantidad = 7;
             cellSize = 72;
             activarGrilla(cantidad,cellSize);
-            cicloMatch();
+            cicloMatchInicializar();
             break;
 
         default:
