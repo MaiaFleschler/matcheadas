@@ -86,7 +86,7 @@ parrafoReloj.appendChild(textoReloj);
 
 //Generar grilla
 let arrayMatriz = [];
-const emojis = ["🐸", "🐷", "🦝", "🐔", "🐵", "🐱"]
+const emojis = ["🐸", "🐷", "🦝", "🐔", "🐵","🦒","🐨"]
 
 
 const crearMatriz = (cantidad,tamanio) =>{
@@ -137,15 +137,20 @@ const activarGrilla = (cantidad, cellSize) =>{
         crearMatriz(cantidad,cellSize);
     }
 }
-//Bloque horizontal
+
 const tieneBloqueHorizontal = () => {
+    let matrizH = [];
     let arraycito = [];
     for(let i = 0; i < arrayMatriz.length; i++) {
         const array = arrayMatriz[i];
-
         for(let j = 0; j < array.length; j++) {
+            if(arraycito.indexOf(`${i}${j}`) === -1){
             if(array[j] === array[j + 1] && array[j] === array[j + 2]) {
-                
+                let arrayBloque = [];
+                arrayBloque.push(`${i}${j}`);
+                arrayBloque.push(`${i}${j+1}`);
+                arrayBloque.push(`${i}${j+2}`);
+
                 arraycito.push(`${i}${j}`);
                 arraycito.push(`${i}${j+1}`);
                 arraycito.push(`${i}${j+2}`);
@@ -154,42 +159,53 @@ const tieneBloqueHorizontal = () => {
                 let m=0;
                 for(let x=3; m<1; x++){
                     if(array[y+2] === array[j+x]){
+                        arrayBloque.push(`${i}${j+x}`);
                         arraycito.push(`${i}${j+x}`);
                         y++;
                     }else{
                         m++;
                     }
-                 } 
-            }
+                 } matrizH.push(arrayBloque);
+            }}
         }
-    } return arraycito;
+    
+    } 
+     return matrizH;
 }
+
 //Bloque vertical
 const tieneBloqueVertical = () => {
-    
-    let arraycitoV = [];
+    let matrizV = [];
+    let arraycito = [];
     for(let i = 0; i < arrayMatriz.length; i++){
         for(let j = 0; j < arrayMatriz[i].length-2; j++){
+            if(arraycito.indexOf(`${j}${i}`) === -1){
             if(arrayMatriz[j][i] === arrayMatriz[j + 1][i] && arrayMatriz[j][i] === arrayMatriz[j + 2][i]){ 
-                
-                arraycitoV.push(`${j}${i}`);
-                arraycitoV.push(`${j+1}${i}`);
-                arraycitoV.push(`${j+2}${i}`);
+                let arrayBloque = [];
+                arrayBloque.push(`${j}${i}`);
+                arrayBloque.push(`${j+1}${i}`);
+                arrayBloque.push(`${j+2}${i}`);
+
+                arraycito.push(`${j}${i}`);
+                arraycito.push(`${j+1}${i}`);
+                arraycito.push(`${j+2}${i}`);
                 
                 let y=j;
             
                 for(let x=3; y<arrayMatriz[i].length-4; x++){
                     if(arrayMatriz[y+2][i] === arrayMatriz[j+x][i]){
-                        arraycitoV.push(`${j+x}${i}`);
+                        arrayBloque.push(`${j+x}${i}`);
+                        arraycito.push(`${j+x}${i}`);
                         y++;
                     }else{
                         break;
                     }
-                }
+                } matrizV.push(arrayBloque);
                 
-            }
+            }}
         }
-    } return arraycitoV;
+    } 
+    return matrizV;
 }
 //Trae elemento del dom
 const getCeldaDom = (fila,columna)=>{
@@ -197,27 +213,37 @@ const getCeldaDom = (fila,columna)=>{
     return celda;
 }
 
-//Une bloques horizontales y verticales
-const unirBloques =()=>{
-    let arrayABorrar = [];
-    const arraycitoH = tieneBloqueHorizontal();
-    const arraycitoV = tieneBloqueVertical();
-    arrayABorrar = arraycitoH.concat(arraycitoV);
-    return arrayABorrar;
-
+//Deshacer Bloques
+const deshacerMatriz = (matriz) =>{
+    let array = [];
+    for(let i=0; i<matriz.length; i++){
+        for(let j=0; j<matriz[i].length; j++){
+            array.push(matriz[i][j]);
+        }
+    }
+    return array;
 }
 
 
+//Une bloques horizontales y verticales
+const unirBloques =()=>{
+    let matrizUnion = [];
+    const matrizH = tieneBloqueHorizontal();
+    const matrizV = tieneBloqueVertical();
+    matrizUnion = matrizH.concat(matrizV);
+    let arrayABorrar = deshacerMatriz(matrizUnion);
+    return arrayABorrar;
+}
+
 //funcion borrar bloques
 const eliminarBloques =()=>{
-    const arrayABorrar = unirBloques();
+    let arrayABorrar = unirBloques();
         for(let elemento of arrayABorrar){
         let fila = Number(elemento.slice(0,1));
         let columna = Number(elemento.slice(1));
-        console.log(fila,columna);
         arrayMatriz[fila][columna]="";
         getCeldaDom(fila,columna).innerHTML="";
-    } console.log(arrayMatriz);        
+    }       
 }
 
 
@@ -237,9 +263,9 @@ const moverCelda = (clickAnterior, clickPosterior, dataRowAnterior, dataColumnAn
     clickPosterior.setAttribute("id", `${dataRowAnterior}-${dataColumnAnterior}`);
     //intercambia emojis de la matriz:
     arrayMatriz[dataRowPosterior][dataColumnPosterior] = clickAnterior.innerHTML;
-    console.log(arrayMatriz[dataRowPosterior][dataColumnPosterior])
     arrayMatriz[dataRowAnterior][dataColumnAnterior] = clickPosterior.innerHTML;    
-    console.log(arrayMatriz[dataRowAnterior][dataColumnAnterior])
+    console.log(arrayMatriz[dataRowPosterior][dataColumnPosterior]);
+    console.log(arrayMatriz[dataRowAnterior][dataColumnAnterior]);
 }
 
 //Devolver Item
@@ -286,13 +312,28 @@ const descenderBloque = () =>{
         }
     }
 }
-//Puntaje
-const sumarPuntos = (cantidad)=>{
-    let puntaje = cantidad*100;
-    console.log(puntaje);
-    puntaje = 0;
+//Contador Combos
+const contarCombos = ()=>{
+    const matrizH = tieneBloqueHorizontal();
+    console.log(matrizH);
+    const matrizV = tieneBloqueVertical();
+    console.log(matrizV);
+    let contadorCombos;
+    contadorCombos = matrizH.length + matrizV.length;
+    console.log(contadorCombos);
+    return contadorCombos;
 }
 
+//Puntaje
+const sumarPuntos = (cantidad, combos)=>{
+    console.log(cantidad);
+    console.log(combos);
+    let puntaje = cantidad*100*(combos);
+    console.log(puntaje);
+    return puntaje;
+}
+
+// Ciclo de matches cuando se inicializa el juego
 const cicloMatchInicializar = ()=>{
     let arrayABorrar = unirBloques();
     while(arrayABorrar.length !== 0){
@@ -303,22 +344,26 @@ const cicloMatchInicializar = ()=>{
     } 
 }
 
+// Ciclo de matches
 const cicloMatch = ()=>{
     let arrayABorrar = unirBloques();
     let contadorItems = 0;
+    let resultado = 0;
+    let cantCombos = contarCombos();
+    let combos;
     while(arrayABorrar.length !== 0){
         eliminarBloques();
         descenderBloque();
         rellenarVacios();
         console.log(arrayABorrar);
         contadorItems += arrayABorrar.length;
-        console.log("primer" + contadorItems);
-        arrayABorrar = unirBloques();
-        console.log(arrayABorrar);
-        contadorItems += arrayABorrar.length;
-        console.log("suma de los dos" +contadorItems);
-        sumarPuntos(contadorItems);
+        resultado = sumarPuntos(contadorItems, cantCombos);    
+        arrayABorrar = unirBloques();   
+        combos = cantCombos;
+        cantCombos++; 
     } 
+    parrafoPuntos.innerHTML = `Puntos: ${resultado}`;
+    parrafoCombo.innerHTML = `Combo x ${combos}`;
 }
 
 
