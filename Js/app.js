@@ -260,10 +260,10 @@ const moverCelda = (clickAnterior, clickPosterior, dataRowAnterior, dataColumnAn
 
 //Devolver Item
 const devolverItem =(clickAnterior, clickPosterior, dataRowAnterior, dataColumnAnterior, dataRowPosterior, dataColumnPosterior)=>{
-    moverCelda(clickAnterior, clickPosterior, dataRowAnterior, dataColumnAnterior, dataRowPosterior, dataColumnPosterior)
+    setTimeout(moverCelda(clickAnterior, clickPosterior, dataRowAnterior, dataColumnAnterior, dataRowPosterior, dataColumnPosterior), 4000);
     let arrayABorrar = unirBloques();
     if(arrayABorrar.length===0){
-        moverCelda(clickPosterior, clickAnterior, dataRowAnterior, dataColumnAnterior, dataRowPosterior, dataColumnPosterior)
+        setTimeout(moverCelda(clickPosterior, clickAnterior, dataRowAnterior, dataColumnAnterior, dataRowPosterior, dataColumnPosterior),4000);
     }
 }
 
@@ -341,8 +341,8 @@ const cicloMatch = ()=>{
     let combos;
     while(arrayABorrar.length !== 0){
         eliminarBloques();
-        descenderBloque();
-        rellenarVacios();
+        setTimeout(descenderBloque(),4000);
+        setTimeout(rellenarVacios(),4000);
         console.log(arrayABorrar);
         contadorItems += arrayABorrar.length;
         sumarPuntos(contadorItems, cantCombos);    
