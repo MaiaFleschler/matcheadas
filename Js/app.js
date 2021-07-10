@@ -23,23 +23,13 @@ const parrafoCombo = document.createElement ("p");
 
 const parrafoPuntos = document.createElement ("p");
 
-const textoCombo = document.createTextNode ("Combo x");
+const textoCombo = document.createTextNode ("Combo x 0");
 parrafoCombo.appendChild(textoCombo);
 contenedorPuntaje.appendChild(parrafoCombo);
-const spanCombo = document.createElement("span");
-const txtSpanCombo = document.createTextNode(" 0");
-spanCombo.setAttribute("id","combo");
-spanCombo.appendChild(txtSpanCombo);
-parrafoCombo.appendChild(spanCombo);
 
-const textoPuntos = document.createTextNode ("Puntos: ");
+const textoPuntos = document.createTextNode ("Puntos: 0");
 parrafoPuntos.appendChild(textoPuntos);
 contenedorPuntaje.appendChild(parrafoPuntos);
-const spanPuntos = document.createElement("span");
-const txtSpanPuntos = document.createTextNode(" 0");
-spanPuntos.setAttribute("id","puntos");
-spanPuntos.appendChild(txtSpanPuntos);
-parrafoPuntos.appendChild(spanPuntos);
 
 //Div botones info y refresh
 
@@ -328,9 +318,8 @@ const contarCombos = ()=>{
 const sumarPuntos = (cantidad, combos)=>{
     console.log(cantidad);
     console.log(combos);
-    let puntaje = cantidad*100*(combos);
-    console.log(puntaje);
-    return puntaje;
+    resultado += cantidad*100*(combos);  
+    parrafoPuntos.innerHTML = `Puntos: ${resultado}`;    
 }
 
 // Ciclo de matches cuando se inicializa el juego
@@ -348,7 +337,6 @@ const cicloMatchInicializar = ()=>{
 const cicloMatch = ()=>{
     let arrayABorrar = unirBloques();
     let contadorItems = 0;
-    let resultado = 0;
     let cantCombos = contarCombos();
     let combos;
     while(arrayABorrar.length !== 0){
@@ -357,17 +345,20 @@ const cicloMatch = ()=>{
         rellenarVacios();
         console.log(arrayABorrar);
         contadorItems += arrayABorrar.length;
-        resultado = sumarPuntos(contadorItems, cantCombos);    
+        sumarPuntos(contadorItems, cantCombos);    
         arrayABorrar = unirBloques();   
         combos = cantCombos;
         cantCombos++; 
-    } 
-    parrafoPuntos.innerHTML = `Puntos: ${resultado}`;
+    }   
+    
     parrafoCombo.innerHTML = `Combo x ${combos}`;
+    setTimeout(function(){parrafoCombo.innerHTML = `Combo x 0`},2000);
+       
 }
 
 
 //Seleccion item
+let resultado = 0;
 let clickAnterior = null;
 const clickearCeldas = (e) =>{
     const clickPosterior = e.target;
@@ -388,7 +379,8 @@ const clickearCeldas = (e) =>{
                 devolverItem(clickAnterior, clickPosterior, dataRowAnterior, dataColumnAnterior, dataRowPosterior, dataColumnPosterior);
                 clickAnterior.classList.remove("seleccion-celda")
                 clickAnterior = null;      
-                cicloMatch();     
+                cicloMatch();   
+                 
             }
         }else{ //items no adyacentes    
             clickPosterior.classList.add("seleccion-celda");
@@ -399,7 +391,7 @@ const clickearCeldas = (e) =>{
         clickAnterior = clickPosterior;
         clickAnterior.classList.add("seleccion-celda");
     }
-}
+}; 
 
 // Dificultad
 
@@ -518,6 +510,6 @@ const juegoTerminado = () => {
         mostrarModalDificultad();
         }
     });
-};    
+};  
 
 
