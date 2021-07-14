@@ -76,7 +76,7 @@ parrafoReloj.appendChild(textoReloj);
 
 //Generar grilla
 let arrayMatriz = [];
-const emojis = ["🐸", "🐷", "🦝", "🐔", "🐵","🦒","🐨"]
+const emojis = ["🐸", "🐷", "🐶", "🐔", "🐵", "🐹", "🐱"];
 
 
 const crearMatriz = (cantidad,tamanio) =>{
@@ -344,7 +344,7 @@ const cicloMatch = ()=>{
         eliminarBloques();
         descenderBloque();
         rellenarVacios();
-        contadorItems += arrayABorrar.length;
+        contadorItems = arrayABorrar.length;
         sumarPuntos(contadorItems, cantCombos);    
         arrayABorrar = unirBloques();   
         combos = cantCombos;

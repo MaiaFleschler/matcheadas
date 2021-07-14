@@ -152,9 +152,9 @@ body{
 		width: 90%;
 		height: 90%;
 	}
-	.contenedorPuntaje{
-		width: 70%;
-	}
+	.contenedorControl{
+		font-size: 12px;
+	}	
 	.contenedorGrilla{
 		width: 100%;				
 	}
@@ -163,6 +163,6 @@ body{
 		max-height: 50vh;		
 	}
 	.celda{
-		font-size: 25px;
+		font-size: 25px!important;
 	}	
 }
