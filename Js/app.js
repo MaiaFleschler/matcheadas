@@ -97,16 +97,15 @@ const crearCeldas = (i, j, emoji, cellSize) =>{
     celda = document.createElement('div');
     celda.dataset.row = i;
     celda.dataset.column = j;
-    celda.style.width = `${cellSize}px`;
-    celda.style.height = `${cellSize}px`;
+    celda.style.width = `${cellSize}%`;
+    celda.style.height = `${cellSize}%`;
     celda.style.position = 'absolute';
-    celda.style.left = `${j*cellSize}px`;
-    celda.style.top = `${i*cellSize}px`;
-    celda.style.fontSize = `${cellSize-20}px`;
+    celda.style.left = `${j*cellSize}%`;
+    celda.style.top = `${i*cellSize}%`;
     celda.style.textAlign = "center";
     celda.innerHTML = emoji;
     celda.id=`${i}-${j}`
-    celda.className = 'celda';
+    celda.setAttribute("class","celda");
     celda.addEventListener('click', clickearCeldas);
     return celda;
 }
@@ -241,11 +240,16 @@ const eliminarBloques =()=>{
 
 
 //Intercambiar Posiciones
-const moverCelda = (clickAnterior, clickPosterior, dataRowAnterior, dataColumnAnterior, dataRowPosterior, dataColumnPosterior) =>{
-    clickAnterior.style.top = `${dataRowPosterior * cellSize}px`
-    clickAnterior.style.left = `${dataColumnPosterior * cellSize}px`
-    clickPosterior.style.top = `${dataRowAnterior * cellSize}px`
-    clickPosterior.style.left = `${dataColumnAnterior * cellSize}px`
+const moverCelda = (clickAnterior, clickPosterior) =>{
+    const dataRowAnterior = clickAnterior.dataset.row;
+    const dataRowPosterior = clickPosterior.dataset.row;
+    const dataColumnAnterior = clickAnterior.dataset.column;
+    const dataColumnPosterior = clickPosterior.dataset.column;
+
+    clickAnterior.style.top = `${dataRowPosterior * cellSize}%`
+    clickAnterior.style.left = `${dataColumnPosterior * cellSize}%`
+    clickPosterior.style.top = `${dataRowAnterior * cellSize}%`
+    clickPosterior.style.left = `${dataColumnAnterior * cellSize}%`
 
     clickAnterior.dataset.row = dataRowPosterior;
     clickAnterior.dataset.column = dataColumnPosterior;
@@ -262,11 +266,11 @@ const moverCelda = (clickAnterior, clickPosterior, dataRowAnterior, dataColumnAn
 }
 
 //Devolver Item
-const devolverItem =(clickAnterior, clickPosterior, dataRowAnterior, dataColumnAnterior, dataRowPosterior, dataColumnPosterior)=>{
-    moverCelda(clickAnterior, clickPosterior, dataRowAnterior, dataColumnAnterior, dataRowPosterior, dataColumnPosterior);
+const devolverItem =(clickAnterior, clickPosterior)=>{
+    moverCelda(clickAnterior, clickPosterior);
     let arrayABorrar = unirBloques();
     if(arrayABorrar.length===0){
-        setTimeout(moverCelda, 400, clickPosterior, clickAnterior, dataRowAnterior, dataColumnAnterior, dataRowPosterior, dataColumnPosterior);
+        setTimeout(moverCelda, 400, clickPosterior, clickAnterior);
     }
 }
 
@@ -359,12 +363,18 @@ const cicloMatch = ()=>{
        
 }
 
+//Verifica Adyacencia
+ const esAdyacente = (distanciaRow, distanciaColumn) =>{
+    return((distanciaRow >= -1 && distanciaRow <= 1) && (distanciaColumn >= -1 && distanciaColumn <= 1)) //horizontales y verticales adyacentes
+        && (distanciaRow === 0 || distanciaColumn === 0)//omite diagonales adyacentes 
+ }
 
 //Seleccionar item
 let resultado = 0;
 let clickAnterior = null;
+let clickPosterior;
 const clickearCeldas = (e) =>{
-    const clickPosterior = e.target;
+    clickPosterior = e.target;
     if(clickAnterior){
         const dataRowAnterior = clickAnterior.dataset.row;
         const dataRowPosterior = clickPosterior.dataset.row;
@@ -372,19 +382,11 @@ const clickearCeldas = (e) =>{
         const dataColumnPosterior = clickPosterior.dataset.column;
         const distanciaRow = dataRowAnterior - dataRowPosterior;
         const distanciaColumn = dataColumnAnterior - dataColumnPosterior;
-
-        if((distanciaRow >= -1 && distanciaRow <= 1) && (distanciaColumn >= -1 && distanciaColumn <= 1)){ //horizontales y verticales adyacentes
-            if((distanciaRow === 1 || distanciaRow === -1) && (distanciaColumn === 1 || distanciaColumn === -1)){ //omite diagonales adyacentes 
-                clickPosterior.classList.add("seleccion-celda");
-                clickAnterior.classList.remove("seleccion-celda");
-                clickAnterior = clickPosterior;
-            }else{
-                devolverItem(clickAnterior, clickPosterior, dataRowAnterior, dataColumnAnterior, dataRowPosterior, dataColumnPosterior);
+        if(esAdyacente(distanciaRow, distanciaColumn)){
+                devolverItem(clickAnterior, clickPosterior);
                 clickAnterior.classList.remove("seleccion-celda")
                 clickAnterior = null;      
-                cicloMatch()
-                 
-            }
+                cicloMatch();
         }else{ //items no adyacentes    
             clickPosterior.classList.add("seleccion-celda");
             clickAnterior.classList.remove("seleccion-celda");
@@ -423,21 +425,21 @@ swal({
     switch (value) {
         case "facil":
             cantidad = 9;
-            cellSize = 56;
+            cellSize = 11.1;
             activarGrilla(cantidad,cellSize);                   
             cicloMatchInicializar();
             break;
 
         case "normal":
             cantidad = 8;
-            cellSize = 63;
+            cellSize = 12.5;
             activarGrilla(cantidad,cellSize);
             cicloMatchInicializar();
             break;
 
         case "dificil":
             cantidad = 7;
-            cellSize = 72;
+            cellSize = 14.3;
             activarGrilla(cantidad,cellSize);
             cicloMatchInicializar();
             break;
