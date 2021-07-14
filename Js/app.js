@@ -23,7 +23,7 @@ const parrafoCombo = document.createElement ("p");
 
 const parrafoPuntos = document.createElement ("p");
 
-const textoCombo = document.createTextNode ("Combo x0");
+const textoCombo = document.createTextNode ("Combo x 0");
 parrafoCombo.appendChild(textoCombo);
 contenedorPuntaje.appendChild(parrafoCombo);
 
@@ -90,7 +90,7 @@ const crearMatriz = (cantidad,tamanio) =>{
             grilla.append(crearCeldas(i, j, emoji, cellSize));
         }
         
-    }console.log(arrayMatriz)
+    }
 }
 let celda;
 const crearCeldas = (i, j, emoji, cellSize) =>{
@@ -103,6 +103,7 @@ const crearCeldas = (i, j, emoji, cellSize) =>{
     celda.style.left = `${j*cellSize}%`;
     celda.style.top = `${i*cellSize}%`;
     celda.style.textAlign = "center";
+    celda.style.fontSize = `${cellSize*3.5}px`;
     celda.innerHTML = emoji;
     celda.id=`${i}-${j}`
     celda.setAttribute("class","celda");
@@ -261,8 +262,6 @@ const moverCelda = (clickAnterior, clickPosterior) =>{
     //Intercambiar emojis de la matriz:
     arrayMatriz[dataRowPosterior][dataColumnPosterior] = clickAnterior.innerHTML;
     arrayMatriz[dataRowAnterior][dataColumnAnterior] = clickPosterior.innerHTML;    
-    console.log(arrayMatriz[dataRowPosterior][dataColumnPosterior]);
-    console.log(arrayMatriz[dataRowAnterior][dataColumnAnterior]);
 }
 
 //Devolver Item
@@ -312,12 +311,9 @@ const descenderBloque = () =>{
 //Contador combos
 const contarCombos = ()=>{
     const matrizH = tieneBloqueHorizontal();
-    console.log(matrizH);
     const matrizV = tieneBloqueVertical();
-    console.log(matrizV);
     let contadorCombos;
     contadorCombos = matrizH.length + matrizV.length;
-    console.log(contadorCombos);
     return contadorCombos;
 }
 
@@ -343,12 +339,11 @@ const cicloMatch = ()=>{
     let arrayABorrar = unirBloques();
     let contadorItems = 0;
     let cantCombos = contarCombos();
-    let combos;
+    let combos = 0;
     while(arrayABorrar.length !== 0){
         eliminarBloques();
         descenderBloque();
         rellenarVacios();
-        console.log(arrayABorrar);
         contadorItems += arrayABorrar.length;
         sumarPuntos(contadorItems, cantCombos);    
         arrayABorrar = unirBloques();   
@@ -356,9 +351,8 @@ const cicloMatch = ()=>{
         cantCombos++; 
     }   
     
-    parrafoCombo.innerHTML = `Combo x${combos}`;
-    setTimeout(function(){parrafoCombo.innerHTML = `Combo x0`},500);
-       
+    parrafoCombo.innerHTML = `Combo x ${combos}`;
+    setTimeout(function(){parrafoCombo.innerHTML = `Combo x 0`},500);
 }
 
 //Verifica Adyacencia
@@ -531,7 +525,10 @@ const juegoTerminado = () => {
         text: `Puntaje final: ${resultado}`,
         closeOnClickOutside: false,
         buttons: {
-            reiniciar: "Reiniciar",
+            reiniciar: {
+                text: "Reiniciar",
+                value: "reiniciar",
+            },
             nuevoJuego: {
                 text: "Nuevo juego",
                 value: "resetear",
@@ -539,7 +536,14 @@ const juegoTerminado = () => {
         },
     }).then((value) => {
         if(value==="resetear"){
-        mostrarModalDificultad();
+            mostrarModalDificultad();
+        }else if(value === "reiniciar"){
+            activarGrilla(cantidad,cellSize);
+            cicloMatchInicializar();
+            tiempo = setInterval(tiempoJuego, 1000);
+            max= 30;
+            resultado = 0;
+            parrafoPuntos.innerHTML = `Puntos: ${resultado}`;   
         }
     });
 };  
