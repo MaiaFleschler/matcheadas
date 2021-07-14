@@ -1,5 +1,5 @@
 'use strict';
-//COntenedor Principal
+//Contenedor Principal
 const contenedor = document.createElement("div");
 contenedor.setAttribute("class", "contenedor");
 document.body.appendChild(contenedor);
@@ -23,7 +23,7 @@ const parrafoCombo = document.createElement ("p");
 
 const parrafoPuntos = document.createElement ("p");
 
-const textoCombo = document.createTextNode ("Combo x 0");
+const textoCombo = document.createTextNode ("Combo x0");
 parrafoCombo.appendChild(textoCombo);
 contenedorPuntaje.appendChild(parrafoCombo);
 
@@ -31,7 +31,7 @@ const textoPuntos = document.createTextNode ("Puntos: 0");
 parrafoPuntos.appendChild(textoPuntos);
 contenedorPuntaje.appendChild(parrafoPuntos);
 
-//Div botones info y refresh
+//Botones info y refresh
 
 const contenedorBotones= document.createElement("div");
 contenedorControl.appendChild(contenedorBotones);
@@ -50,7 +50,7 @@ iconoBotonInformacion.setAttribute("class","fas fa-info-circle");
 
 const iconoBotonReiniciar = document.createElement("i");
 botonReiniciar.appendChild(iconoBotonReiniciar);
-botonReiniciar.setAttribute("class","botonControl");
+botonReiniciar.setAttribute("class", "botonReiniciar")
 iconoBotonReiniciar.setAttribute("class","fas fa-redo");
 
 const contenedorGrilla = document.createElement("div");
@@ -70,7 +70,7 @@ contenedorReloj.appendChild(iconoReloj);
 iconoReloj.setAttribute("class","fas fa-hourglass-half");
 const parrafoReloj = document.createElement ("p");
 contenedorReloj.appendChild(parrafoReloj);
-const textoReloj = document.createTextNode ("  0:00");
+const textoReloj = document.createTextNode ("0:00");
 parrafoReloj.appendChild(textoReloj);
 
 
@@ -103,13 +103,15 @@ const crearCeldas = (i, j, emoji, cellSize) =>{
     celda.style.left = `${j*cellSize}px`;
     celda.style.top = `${i*cellSize}px`;
     celda.style.fontSize = `${cellSize-20}px`;
+    celda.style.textAlign = "center";
     celda.innerHTML = emoji;
     celda.id=`${i}-${j}`
+    celda.className = 'celda';
     celda.addEventListener('click', clickearCeldas);
     return celda;
 }
 
-// Completar o vaciar Grilla
+//Completar o vaciar grilla
 
 const vaciarGrilla = () => {
     grilla.innerHTML = "";
@@ -128,6 +130,7 @@ const activarGrilla = (cantidad, cellSize) =>{
     }
 }
 
+//Bloque horizontal
 const tieneBloqueHorizontal = () => {
     let matrizH = [];
     let arraycito = [];
@@ -197,7 +200,7 @@ const tieneBloqueVertical = () => {
     } 
     return matrizV;
 }
-//Trae elemento del dom
+//Traer elemento del DOM
 const getCeldaDom = (fila,columna)=>{
     const celda = document.getElementById(`${fila}-${columna}`);
     return celda;
@@ -215,7 +218,7 @@ const deshacerMatriz = (matriz) =>{
 }
 
 
-//Une bloques horizontales y verticales
+//Unir bloques horizontales y verticales
 const unirBloques =()=>{
     let matrizUnion = [];
     const matrizH = tieneBloqueHorizontal();
@@ -225,7 +228,7 @@ const unirBloques =()=>{
     return arrayABorrar;
 }
 
-//funcion borrar bloques
+//Eliminar bloques
 const eliminarBloques =()=>{
     let arrayABorrar = unirBloques();
         for(let elemento of arrayABorrar){
@@ -248,10 +251,10 @@ const moverCelda = (clickAnterior, clickPosterior, dataRowAnterior, dataColumnAn
     clickAnterior.dataset.column = dataColumnPosterior;
     clickPosterior.dataset.row = dataRowAnterior;
     clickPosterior.dataset.column = dataColumnAnterior;
-    //Intercambia Id
+    //Intercambiar Id
     clickAnterior.setAttribute("id", `${dataRowPosterior}-${dataColumnPosterior}`);
     clickPosterior.setAttribute("id", `${dataRowAnterior}-${dataColumnAnterior}`);
-    //intercambia emojis de la matriz:
+    //Intercambiar emojis de la matriz:
     arrayMatriz[dataRowPosterior][dataColumnPosterior] = clickAnterior.innerHTML;
     arrayMatriz[dataRowAnterior][dataColumnAnterior] = clickPosterior.innerHTML;    
     console.log(arrayMatriz[dataRowPosterior][dataColumnPosterior]);
@@ -260,10 +263,10 @@ const moverCelda = (clickAnterior, clickPosterior, dataRowAnterior, dataColumnAn
 
 //Devolver Item
 const devolverItem =(clickAnterior, clickPosterior, dataRowAnterior, dataColumnAnterior, dataRowPosterior, dataColumnPosterior)=>{
-    setTimeout(moverCelda(clickAnterior, clickPosterior, dataRowAnterior, dataColumnAnterior, dataRowPosterior, dataColumnPosterior), 4000);
+    moverCelda(clickAnterior, clickPosterior, dataRowAnterior, dataColumnAnterior, dataRowPosterior, dataColumnPosterior);
     let arrayABorrar = unirBloques();
     if(arrayABorrar.length===0){
-        setTimeout(moverCelda(clickPosterior, clickAnterior, dataRowAnterior, dataColumnAnterior, dataRowPosterior, dataColumnPosterior),4000);
+        setTimeout(moverCelda, 400, clickPosterior, clickAnterior, dataRowAnterior, dataColumnAnterior, dataRowPosterior, dataColumnPosterior);
     }
 }
 
@@ -287,7 +290,7 @@ const descenderBloque = () =>{
     for(let i = arrayMatriz.length-1; i >= 0; i--){
         for(let j = arrayMatriz.length-1; j >= 0; j--){
             if(arrayMatriz[i][j] === ""){
-                for(let k = i; k>=0 ; k--){ //recorre la columna de un espacio vacio para arriba
+                for(let k = i; k>=0 ; k--){ //Recorre la columna de un espacio vacio para arriba
                     if(arrayMatriz[k][j]!==""){
                         let sig= arrayMatriz[k][j];
                         let sig2 = getCeldaDom(k,j).innerHTML;
@@ -302,7 +305,7 @@ const descenderBloque = () =>{
         }
     }
 }
-//Contador Combos
+//Contador combos
 const contarCombos = ()=>{
     const matrizH = tieneBloqueHorizontal();
     console.log(matrizH);
@@ -322,7 +325,7 @@ const sumarPuntos = (cantidad, combos)=>{
     parrafoPuntos.innerHTML = `Puntos: ${resultado}`;    
 }
 
-// Ciclo de matches cuando se inicializa el juego
+//Ciclo de matches cuando se inicializa el juego
 const cicloMatchInicializar = ()=>{
     let arrayABorrar = unirBloques();
     while(arrayABorrar.length !== 0){
@@ -333,7 +336,7 @@ const cicloMatchInicializar = ()=>{
     } 
 }
 
-// Ciclo de matches
+//Ciclo de matches
 const cicloMatch = ()=>{
     let arrayABorrar = unirBloques();
     let contadorItems = 0;
@@ -341,8 +344,8 @@ const cicloMatch = ()=>{
     let combos;
     while(arrayABorrar.length !== 0){
         eliminarBloques();
-        setTimeout(descenderBloque(),4000);
-        setTimeout(rellenarVacios(),4000);
+        descenderBloque();
+        rellenarVacios();
         console.log(arrayABorrar);
         contadorItems += arrayABorrar.length;
         sumarPuntos(contadorItems, cantCombos);    
@@ -351,13 +354,13 @@ const cicloMatch = ()=>{
         cantCombos++; 
     }   
     
-    parrafoCombo.innerHTML = `Combo x ${combos}`;
-    setTimeout(function(){parrafoCombo.innerHTML = `Combo x 0`},2000);
+    parrafoCombo.innerHTML = `Combo x${combos}`;
+    setTimeout(function(){parrafoCombo.innerHTML = `Combo x0`},500);
        
 }
 
 
-//Seleccion item
+//Seleccionar item
 let resultado = 0;
 let clickAnterior = null;
 const clickearCeldas = (e) =>{
@@ -379,7 +382,7 @@ const clickearCeldas = (e) =>{
                 devolverItem(clickAnterior, clickPosterior, dataRowAnterior, dataColumnAnterior, dataRowPosterior, dataColumnPosterior);
                 clickAnterior.classList.remove("seleccion-celda")
                 clickAnterior = null;      
-                cicloMatch();   
+                cicloMatch()
                  
             }
         }else{ //items no adyacentes    
@@ -393,8 +396,7 @@ const clickearCeldas = (e) =>{
     }
 }; 
 
-// Dificultad
-
+//Dificultad y modales
 let cellSize;
 let cantidad;
 
@@ -454,7 +456,7 @@ const mostrarModalBienvenida = () => {
     swal({
         title: "¡Bienvenida!",
         content: span,
-        button: "A jugar",
+        button: "A Jugar",
         closeOnClickOutside: false,
     }).then(() => {
         mostrarModalDificultad();
