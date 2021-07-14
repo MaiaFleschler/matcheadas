@@ -51,7 +51,7 @@ iconoBotonInformacion.setAttribute("class","fas fa-info-circle");
 const iconoBotonReiniciar = document.createElement("i");
 botonReiniciar.appendChild(iconoBotonReiniciar);
 botonReiniciar.setAttribute("class", "botonReiniciar")
-iconoBotonReiniciar.setAttribute("class","fas fa-redo");
+iconoBotonReiniciar.setAttribute("class","fa fa-undo");
 
 const contenedorGrilla = document.createElement("div");
 contenedorGrilla.setAttribute("class", "contenedorGrilla");
