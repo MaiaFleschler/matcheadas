@@ -323,8 +323,6 @@ const contarCombos = ()=>{
 
 //Puntaje
 const sumarPuntos = (cantidad, combos)=>{
-    console.log(cantidad);
-    console.log(combos);
     resultado += cantidad*100*(combos);  
     parrafoPuntos.innerHTML = `Puntos: ${resultado}`;    
 }
@@ -398,6 +396,24 @@ const clickearCeldas = (e) =>{
     }
 }; 
 
+//Reloj 
+let max = 30;
+let tiempo;
+const tiempoJuego = ()=>{
+   
+    if(max>0){
+    max--;
+    if(max>9){
+        parrafoReloj.innerHTML = `0:${max}`;
+    } else{
+        parrafoReloj.innerHTML = `0:0${max}`;
+    }
+    } else{
+        juegoTerminado();
+        clearInterval(tiempo);
+    }
+}
+
 //Dificultad y modales
 let cellSize;
 let cantidad;
@@ -428,6 +444,10 @@ swal({
             cellSize = 11.1;
             activarGrilla(cantidad,cellSize);                   
             cicloMatchInicializar();
+            tiempo = setInterval(tiempoJuego, 1000);
+            max= 30;
+            resultado = 0;
+            parrafoPuntos.innerHTML = `Puntos: ${resultado}`;   
             break;
 
         case "normal":
@@ -435,6 +455,10 @@ swal({
             cellSize = 12.5;
             activarGrilla(cantidad,cellSize);
             cicloMatchInicializar();
+            tiempo = setInterval(tiempoJuego, 1000);
+            max= 30;
+            resultado = 0;
+            parrafoPuntos.innerHTML = `Puntos: ${resultado}`;   
             break;
 
         case "dificil":
@@ -442,6 +466,10 @@ swal({
             cellSize = 14.3;
             activarGrilla(cantidad,cellSize);
             cicloMatchInicializar();
+            tiempo = setInterval(tiempoJuego, 1000);
+            max= 30;
+            resultado = 0;
+            parrafoPuntos.innerHTML = `Puntos: ${resultado}`;    
             break;
 
         default:
@@ -500,7 +528,7 @@ botonInformacion.addEventListener("click",()=>{
 const juegoTerminado = () => {
     swal({
         title: "¡Juego terminado!",
-        text: "Puntaje final: 0",
+        text: `Puntaje final: ${resultado}`,
         closeOnClickOutside: false,
         buttons: {
             reiniciar: "Reiniciar",
