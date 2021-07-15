@@ -1,6 +1,6 @@
 # Match-3 🎲  
 
-#### Proyecto para el tercer módulo de **ADA ITW**: Estructuras de control.
+#### Proyecto para el cuarto módulo de **ADA ITW**: Estructuras de control.
 
 [![forthebadge](https://forthebadge.com/images/badges/made-with-javascript.svg)](https://forthebadge.com)
 
