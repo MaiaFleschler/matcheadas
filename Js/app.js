@@ -402,7 +402,7 @@ const clickearCeldas = (e) =>{
 }; 
 
 //Reloj 
-let max = 40;
+let max = 45;
 let tiempo;
 const tiempoJuego = ()=>{
    
@@ -450,7 +450,7 @@ swal({
             activarGrilla(cantidad,cellSize);                   
             cicloMatchInicializar();
             tiempo = setInterval(tiempoJuego, 1000);
-            max= 40;
+            max= 45;
             resultado = 0;
             parrafoPuntos.innerHTML = `Puntos: ${resultado}`;   
             break;
@@ -461,7 +461,7 @@ swal({
             activarGrilla(cantidad,cellSize);
             cicloMatchInicializar();
             tiempo = setInterval(tiempoJuego, 1000);
-            max= 40;
+            max= 45;
             resultado = 0;
             parrafoPuntos.innerHTML = `Puntos: ${resultado}`;   
             break;
@@ -472,7 +472,7 @@ swal({
             activarGrilla(cantidad,cellSize);
             cicloMatchInicializar();
             tiempo = setInterval(tiempoJuego, 1000);
-            max= 40;
+            max= 45;
             resultado = 0;
             parrafoPuntos.innerHTML = `Puntos: ${resultado}`;    
             break;
@@ -552,7 +552,7 @@ const juegoTerminado = () => {
             activarGrilla(cantidad,cellSize);
             cicloMatchInicializar();
             tiempo = setInterval(tiempoJuego, 1000);
-            max= 40;
+            max= 45;
             resultado = 0;
             parrafoPuntos.innerHTML = `Puntos: ${resultado}`;   
         }
