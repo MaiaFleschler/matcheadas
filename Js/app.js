@@ -78,7 +78,7 @@ let img = document.createElement("img");
 img.src = "./background.jpeg";
 //Generar grilla
 let arrayMatriz = [];
-const emojis = ["🐸", "🐷","🦒", "🐔", "🐵", "🦝", "🐹"];
+const emojis = ["&#128056", "&#128055","&#128048", "&#128020", "&#128053", "&#128059", "&#128037"];
 
 
 const crearMatriz = (cantidad,tamanio) =>{
