@@ -1,6 +1,4 @@
 'use strict';
-//Twemoji
-twemoji.parse(document.body);
 
 //Contenedor Principal
 const contenedor = document.createElement("div");
@@ -76,10 +74,11 @@ contenedorReloj.appendChild(parrafoReloj);
 const textoReloj = document.createTextNode ("0:00");
 parrafoReloj.appendChild(textoReloj);
 
-
+let img = document.createElement("img");
+img.src = "./background.jpeg";
 //Generar grilla
 let arrayMatriz = [];
-const emojis = ["🐸", "🐷", "🦒", "🐔", "🐵", "🦝", "🐹"];
+const emojis = ["🐸", "🐷","🦒", "🐔", "🐵", "🦝", "🐹"];
 
 
 const crearMatriz = (cantidad,tamanio) =>{
@@ -557,4 +556,6 @@ const juegoTerminado = () => {
     });
 };  
 
+//Twemoji
+twemoji.parse(document.body);
 
