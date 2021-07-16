@@ -340,19 +340,19 @@ const cicloMatch = ()=>{
     let contadorItems = 0;
     let cantCombos = contarCombos();
     let combos = 0;
-    while(arrayABorrar.length !== 0){
-        eliminarBloques();
-        descenderBloque();
-        rellenarVacios();
-        contadorItems = arrayABorrar.length;
-        sumarPuntos(contadorItems, cantCombos);    
-        arrayABorrar = unirBloques();   
-        combos = cantCombos;
-        cantCombos++; 
-    }   
-    
+    setTimeout(()=>{eliminarBloques()},200);  
+    setTimeout(()=>{descenderBloque();},400);
+    setTimeout(()=>{rellenarVacios(); },600); 
+    contadorItems = arrayABorrar.length;
+    sumarPuntos(contadorItems, cantCombos);    
+    arrayABorrar = unirBloques();   
+    combos = cantCombos;
+    cantCombos++;   
     parrafoCombo.innerHTML = `Combo x ${combos}`;
     setTimeout(function(){parrafoCombo.innerHTML = `Combo x 0`},500);
+    setTimeout(()=>{ if(arrayABorrar.length !== 0){
+        cicloMatch();}
+    },800);  
 }
 
 //Verifica Adyacencia
@@ -391,7 +391,7 @@ const clickearCeldas = (e) =>{
 }; 
 
 //Reloj 
-let max = 30;
+let max = 40;
 let tiempo;
 const tiempoJuego = ()=>{
    
@@ -439,7 +439,7 @@ swal({
             activarGrilla(cantidad,cellSize);                   
             cicloMatchInicializar();
             tiempo = setInterval(tiempoJuego, 1000);
-            max= 30;
+            max= 40;
             resultado = 0;
             parrafoPuntos.innerHTML = `Puntos: ${resultado}`;   
             break;
@@ -450,7 +450,7 @@ swal({
             activarGrilla(cantidad,cellSize);
             cicloMatchInicializar();
             tiempo = setInterval(tiempoJuego, 1000);
-            max= 30;
+            max= 40;
             resultado = 0;
             parrafoPuntos.innerHTML = `Puntos: ${resultado}`;   
             break;
@@ -461,7 +461,7 @@ swal({
             activarGrilla(cantidad,cellSize);
             cicloMatchInicializar();
             tiempo = setInterval(tiempoJuego, 1000);
-            max= 30;
+            max= 40;
             resultado = 0;
             parrafoPuntos.innerHTML = `Puntos: ${resultado}`;    
             break;
@@ -541,7 +541,7 @@ const juegoTerminado = () => {
             activarGrilla(cantidad,cellSize);
             cicloMatchInicializar();
             tiempo = setInterval(tiempoJuego, 1000);
-            max= 30;
+            max= 40;
             resultado = 0;
             parrafoPuntos.innerHTML = `Puntos: ${resultado}`;   
         }

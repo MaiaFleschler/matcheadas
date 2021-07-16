@@ -98,6 +98,10 @@ body{
 	justify-content: center;
 	align-items: center;
 }
+.celda:hover{
+	transform: scale(1.2);
+   	transition-duration: 0.2s;
+}
 .estiloLetras{
     font-family: 'Pacifico', cursive;
     text-shadow: 1px 1px #fafafa, 1px -1px #fafafa, -1px -1px #fafafa, -1px 1px #fafafa;
