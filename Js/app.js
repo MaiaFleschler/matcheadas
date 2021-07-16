@@ -76,7 +76,7 @@ parrafoReloj.appendChild(textoReloj);
 
 //Generar grilla
 let arrayMatriz = [];
-const emojis = ["🐸", "🐷", "🐶", "🐔", "🐵", "🐹", "🐱"];
+const emojis = ["🐸", "🐷", "🐶", "🐔", "🐵", "🐱", "🐹"];
 
 
 const crearMatriz = (cantidad,tamanio) =>{
