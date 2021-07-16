@@ -318,9 +318,7 @@ const contarCombos = ()=>{
 }
 
 //Puntaje
-const sumarPuntos = (cantidad, combos)=>{
-    console.log(cantidad);
-    console.log(combos);
+const sumarPuntos = (cantidad, combos)=>{    
     resultado += cantidad*100*(combos);  
     parrafoPuntos.innerHTML = `Puntos: ${resultado}`;    
 }
@@ -351,19 +349,18 @@ const cicloMatch = ()=>{
         },400);
         setTimeout(() => {
             rellenarVacios();
-        },600);
-        console.log(arrayABorrar);
-    contadorItems += arrayABorrar.length;
-    sumarPuntos(contadorItems, cantCombos);    
-    arrayABorrar = unirBloques();   
-    combos = cantCombos;
-    cantCombos++; 
-    setTimeout(()=>{
-        cicloMatch();
-    },400);
-    }  
-    parrafoCombo.innerHTML = `Combo x ${combos}`;
-    setTimeout(function(){parrafoCombo.innerHTML = `Combo x 0`},500);        
+        },600);        
+        contadorItems = arrayABorrar.length;
+        sumarPuntos(contadorItems, cantCombos);    
+        arrayABorrar = unirBloques();   
+        combos = cantCombos;
+        cantCombos++;     
+        parrafoCombo.innerHTML = `Combo x ${combos}`;
+        setTimeout(function(){parrafoCombo.innerHTML = `Combo x 0`},500);    
+        setTimeout(() => {
+            cicloMatch(); 
+        },800);  
+    }    
 }
 
 //Verifica Adyacencia
