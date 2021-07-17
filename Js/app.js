@@ -1,4 +1,5 @@
 'use strict';
+
 //Contenedor Principal
 const contenedor = document.createElement("div");
 contenedor.setAttribute("class", "contenedor");
@@ -73,10 +74,11 @@ contenedorReloj.appendChild(parrafoReloj);
 const textoReloj = document.createTextNode ("0:00");
 parrafoReloj.appendChild(textoReloj);
 
-
+let img = document.createElement("img");
+img.src = "./background.jpeg";
 //Generar grilla
 let arrayMatriz = [];
-const emojis = ["🐸", "🐷", "🐶", "🐔", "🐵", "🐱", "🐹"];
+const emojis = ["🐸","🐰","🐷","🐶","🦊","🐔","🐹"];
 
 
 const crearMatriz = (cantidad,tamanio) =>{
@@ -334,33 +336,31 @@ const cicloMatchInicializar = ()=>{
     } 
 }
 
+const esperar = (ms)=>{
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 //Ciclo de matches
-const cicloMatch = ()=>{
+const cicloMatch = async()=>{
     let arrayABorrar = unirBloques();
     let contadorItems = 0;
     let cantCombos = contarCombos();
     let combos = 0;
-    if(arrayABorrar.length !== 0){
-        setTimeout(() => {
+    while(arrayABorrar.length !== 0){     
+        console.log(arrayABorrar);   
             eliminarBloques();
-        },200);
-        setTimeout(() => {
+            await esperar (200);    
             descenderBloque();
-        },400);
-        setTimeout(() => {
+            await esperar (200);                 
             rellenarVacios();
-        },600);        
+            await esperar (200);           
         contadorItems = arrayABorrar.length;
         sumarPuntos(contadorItems, cantCombos);    
         arrayABorrar = unirBloques();   
         combos = cantCombos;
-        cantCombos++;     
-        parrafoCombo.innerHTML = `Combo x ${combos}`;
-        setTimeout(function(){parrafoCombo.innerHTML = `Combo x 0`},500);    
-        setTimeout(() => {
-            cicloMatch(); 
-        },800);  
-    }    
+        cantCombos++; 
+    }       
+    parrafoCombo.innerHTML = `Combo x ${combos}`;
+    setTimeout(function(){parrafoCombo.innerHTML = `Combo x 0`},500);
 }
 
 //Verifica Adyacencia
@@ -482,11 +482,11 @@ swal({
 };
 
 const span = document.createElement("span");
-span.innerHTML="En MatcheADAs tu objetivo es juntar tres o más ítems del mismo tipo, ya sea en fila o columna. Para eso, selecciona un ítem y a continuación un ítem adyacente para intercambiarlos de lugar.<br><br> Si se forma un grupo, esos items se eliminarán y ganarás puntos. ¡Sigue armando grupos de 3 o más antes de que se acabe el tiempo! <br><br><strong>Controles</strong><br>Click izquierdo: Selección <br>Enter o Espacio: Selección <br>Flechas o WASD: Movimiento e intercambio"
+span.innerHTML="En MatcheADAs tu objetivo es juntar tres o más ítems del mismo tipo, ya sea en fila o columna. Para eso, selecciona un ítem y a continuación un ítem adyacente para intercambiarlos de lugar.<br><br> Si se forma un grupo, esos items se eliminarán y ganarás puntos. ¡Sigue armando grupos de 3 o más antes de que se acabe el tiempo! <br><br><strong>Hecho con &#9829;</strong><br>Por Mar, Mack y Mai <br>"
 
 const mostrarModalBienvenida = () => {
     swal({
-        title: "¡Bienvenida!",
+        title: "¡Bienvenid@!",
         content: span,
         button: "A Jugar",
         closeOnClickOutside: false,
@@ -556,4 +556,6 @@ const juegoTerminado = () => {
     });
 };  
 
+//Twemoji
+twemoji.parse(document.body);
 
